@@ -1,0 +1,37 @@
+.login-background {
+    background-image: url('/public/ensenada.jpg'); 
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .login-card {
+    background: rgba(255, 255, 255, 0.9); 
+    padding: 20px;
+    border-radius: 10px;
+    text-align: left; 
+  }
+  
+  .login-card .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .login-card .card-subtitle {
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #6c757d;
+  }
+  
+  .login-card .form-group {
+    text-align: left; 
+  }
+  
+  .login-card .btn {
+    width: 45%;
+    margin-top: 10px;
+    margin-inline: 10px;
+  }
