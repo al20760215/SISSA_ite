@@ -1,0 +1,42 @@
+#Instruciones de instalacion
+
+#Se crea el dockerfile y a continuacion 
+
+docker build -t sissa_ite .
+docker run --name sissa_ite -p 5432:5432 -d sissa_ite
+
+#Validamos que se tenga en liena el contenedor
+docker ps
+# accedemos al docker
+docker exec -it sissa_ite psql -U postgres -d baseservicio
+
+#Se valida los datos de la base 
+\dt
+
+#baseservicio=# \dt
+#                    List of relations
+# Schema |             Name             | Type  |  Owner   
+#--------+------------------------------+-------+----------
+# public | administradoresdb            | table | postgres 
+# public | alumnos                      | table | postgres 
+# public | alumnosorganizaciones        | table | postgres 
+# public | bimestres                    | table | postgres 
+# public | encargados                   | table | postgres 
+# public | encargadosserviciosocial     | table | postgres
+# public | historialasignacionprogramas | table | postgres
+# public | historialcreditos            | table | postgres
+# public | historialprogramasalumnos    | table | postgres
+# public | jefesacargo                  | table | postgres
+# public | maestros                     | table | postgres
+# public | organizaciones               | table | postgres
+# public | programasencargados          | table | postgres
+# public | programasserviciosocial      | table | postgres
+# public | solicitudesprogramas         | table | postgres
+# public | tutores                      | table | postgres
+# public | usuarios                     | table | postgres
+#(17 rows)
+
+# Para descargar la imagen se puede usar:
+
+docker pull robealex/sissa_ite:latest
+
