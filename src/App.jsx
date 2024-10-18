@@ -1,4 +1,3 @@
-import "./App.css";
 import Login from "./pages/Login.jsx";
 import HomeAbout from "./pages/HomeAbout.jsx";
 import Page404 from "./pages/404.jsx";

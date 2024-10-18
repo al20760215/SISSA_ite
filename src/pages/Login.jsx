@@ -1,11 +1,21 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import {
+  Button,
+  Container,
+  Typography,
+  Box,
+  Card,
+  CardActions,
+  CardContent,
+} from "@mui/material";
+import Grid from "@mui/material/Grid2";
 
 export default function HomePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    //check if user is admin
+    //check if user is logged in
     const isAdmin = false;
     const isUser = false;
     const isTutor = false;
@@ -22,11 +32,17 @@ export default function HomePage() {
       navigate("/user/dashboard");
     }
   });
+
   return (
-    <>
-      <h1>Pagina Home</h1>
-      <p>Esta es la pagina inicial</p>
-      <Link to="/about">Ir a About...</Link>
-    </>
+    <Grid container spacing={{ xs: 2, md: 3 }}>
+      <Grid size={{ xs: 12 }}>1</Grid>
+      <Grid size={{ xs: 12, md: 4 }}>
+        <Container>
+          <Typography variant="h5">Login</Typography>
+          <p>Esta es la pagina inicial</p>
+          <Button variant="contained">Login</Button>
+        </Container>
+      </Grid>
+    </Grid>
   );
 }
