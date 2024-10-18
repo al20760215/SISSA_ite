@@ -3,7 +3,26 @@
 
 Desarrollo Local de SISSA, seguir las siguientes acciones para levantar la pagina:
 
-1.- Instalar NodeJS LTS (https://nodejs.org/dist/v20.18.0/node-v20.18.0-x64.msi)
+1.- Instalar NodeJS LTS \\borrar->(https://nodejs.org/dist/v20.18.0/node-v20.18.0-x64.msi)
+
+1.1 Instalar fnm (Fast Node Manager)  
+    **Windows:**  
+      `winget install Schniz.fnm`  
+    **MACoS & Linux:**  
+      `curl -fsSL https://fnm.vercel.app/install | bash`  
+
+1.2 Configurar fnm & activarlo  
+    **Windows:**  
+      `fnm env --use-on-cd | Out-String | Invoke-Expression`  
+    **MACoS & Linux:**  
+      `source ~/.bashrc`  
+
+1.3 Verificación de versión de Node.js  
+    `node -v` # debería imprimir `v20.18.0`  
+
+1.4 Verificación de versión correcta de npm  
+    `npm -v` # debería imprimir `10.8.2`
+
 
 2.- Abrir el terminal desde la carpeta del proyecto e ingresar el siguiente comando: npm install
 
