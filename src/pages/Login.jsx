@@ -58,8 +58,8 @@ export default function HomePage() {
           minWidth: 300,
         }}
       >
-        <CardContent>
-          <Typography variant="h5" align="center" color="textPrimary">
+        <CardContent align="center">
+          <Typography variant="h5" color="textPrimary">
             SISTEMA INTEGRAL DE SERVICIO SOCIAL ALBATROS
           </Typography>
           <Typography color="textSecondary" gutterBottom>
