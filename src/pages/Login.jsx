@@ -78,7 +78,11 @@ export default function HomePage() {
             type="password"
             margin="normal"
           ></TextField>
-          <Button variant="contained" sx={{ mt: 2, mx: 4 }}>
+          <Button
+            onClick={() => navigate("/user/dashboard")}
+            variant="contained"
+            sx={{ mt: 2, mx: 4 }}
+          >
             Iniciar sesion
           </Button>
           <Button variant="outlined" sx={{ mt: 2 }}>
