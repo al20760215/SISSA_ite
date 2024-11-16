@@ -22,7 +22,7 @@ export default function UserStatusCard() {
     program: {
       id: "12345",
       name: "Programa de Servicio Social en Tecnología",
-      progressStage: "Bimestre 2",
+      progressStage: "No iniciado",
     },
   });
 
@@ -38,7 +38,7 @@ export default function UserStatusCard() {
     "Bimestre 1": 25,
     "Bimestre 2": 50,
     "Bimestre 3": 75,
-    Finalización: 100,
+    Finalizado: 100,
   };
 
   const progressValue = inProgram ? progressMap[program.progressStage] || 0 : 0;
