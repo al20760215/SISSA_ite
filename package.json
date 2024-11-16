@@ -14,7 +14,7 @@
     "@emotion/styled": "^11.13.0",
     "@fontsource/roboto": "^5.1.0",
     "@mui/icons-material": "^6.1.4",
-    "@mui/material": "^6.1.4",
+    "@mui/material": "^6.1.7",
     "express": "^4.21.1",
     "mssql": "^11.0.1",
     "path-to-regexp": "^8.2.0",

@@ -1,11 +1,12 @@
 import Login from "./pages/Login.jsx";
 import HomeAbout from "./pages/HomeAbout.jsx";
+import HomeAbout2 from "./pages/HomeAbout2.jsx";
 import Page404 from "./pages/404.jsx";
 import Test from "./pages/Test.jsx";
 
 import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
-import Dashboard from "./pages/Dashboard.jsx";
-import Dashboard2 from "./pages/Dashboard2.jsx";
+import Dashboard from "./pages/DashboardAdmin.jsx";
+import DashboardAlumno from "./pages/DashboardAlumno.jsx";
 /* roles
  admin, user (alumno), responsable de proyecto (tutor)
 */
@@ -14,7 +15,7 @@ function App() {
     <main>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomeAbout />} />
+          <Route path="/" element={<HomeAbout2 />} />
           <Route path="/login" element={<Login />} />
 
           <Route path="/admin">
@@ -25,7 +26,7 @@ function App() {
           </Route>
 
           <Route path="/user">
-            <Route path="dashboard" element={<Dashboard2 />} />
+            <Route path="dashboard" element={<DashboardAlumno />} />
           </Route>
           {/* dejar el default para el final */}
           <Route path="*" element={<Page404 />} />

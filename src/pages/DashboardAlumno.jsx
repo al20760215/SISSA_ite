@@ -16,6 +16,8 @@ import {
   Menu,
   MenuItem,
   Avatar,
+  Container,
+  Button,
 } from "@mui/material";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
@@ -27,6 +29,8 @@ import NoteIcon from "@mui/icons-material/NoteAlt";
 import WallpaperIcon from "@mui/icons-material/Wallpaper";
 import logoite from "../assets/itelogo.png";
 import { Link, useNavigate } from "react-router-dom";
+import ProgramasServicio from "../components/dashboardAlumno/Programas";
+import EstadoInicio from "../components/dashboardAlumno/EstadoInicio";
 const drawerWidth = 240;
 
 export default function ResponsiveDrawer(props) {
@@ -34,6 +38,7 @@ export default function ResponsiveDrawer(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [activeSection, setActiveSection] = React.useState(""); // Estado para la seccion activa
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -63,6 +68,11 @@ export default function ResponsiveDrawer(props) {
     handleMenuClose(); // cerrar menu luego de accion
   };
 
+  const handleSectionChange = (section) => {
+    setActiveSection(section); // Cambia la sección activa
+    setMobileOpen(false); // Cierra el drawer en dispositivos móviles
+  };
+
   const drawer = (
     <div>
       <Box
@@ -88,7 +98,7 @@ export default function ResponsiveDrawer(props) {
       <Divider />
       <List>
         <ListItem key="inicio" disablePadding>
-          <ListItemButton>
+          <ListItemButton onClick={() => handleSectionChange("Inicio")}>
             <ListItemIcon>
               <InboxIcon />
             </ListItemIcon>
@@ -96,7 +106,9 @@ export default function ResponsiveDrawer(props) {
           </ListItemButton>
         </ListItem>
         <ListItem key="listaprogramas" disablePadding>
-          <ListItemButton>
+          <ListItemButton
+            onClick={() => handleSectionChange("Lista de Programas")}
+          >
             <ListItemIcon>
               <BallotIcon />
             </ListItemIcon>
@@ -104,7 +116,7 @@ export default function ResponsiveDrawer(props) {
           </ListItemButton>
         </ListItem>
         <ListItem key="solicitudes" disablePadding>
-          <ListItemButton>
+          <ListItemButton onClick={() => handleSectionChange("Solicitudes")}>
             <ListItemIcon>
               <MailIcon />
             </ListItemIcon>
@@ -112,7 +124,7 @@ export default function ResponsiveDrawer(props) {
           </ListItemButton>
         </ListItem>
         <ListItem key="notificaciones" disablePadding>
-          <ListItemButton>
+          <ListItemButton onClick={() => handleSectionChange("Notificaciones")}>
             <ListItemIcon>
               <NotifIcon />
             </ListItemIcon>
@@ -123,7 +135,9 @@ export default function ResponsiveDrawer(props) {
       <Divider />
       <List>
         <ListItem key="firmarDocs" disablePadding>
-          <ListItemButton>
+          <ListItemButton
+            onClick={() => handleSectionChange("Firmar Documentos")}
+          >
             <ListItemIcon>
               <SignIcon />
             </ListItemIcon>
@@ -131,7 +145,9 @@ export default function ResponsiveDrawer(props) {
           </ListItemButton>
         </ListItem>
         <ListItem key="reportesBim" disablePadding>
-          <ListItemButton>
+          <ListItemButton
+            onClick={() => handleSectionChange("Reportes Bimestrales")}
+          >
             <ListItemIcon>
               <NoteIcon />
             </ListItemIcon>
@@ -139,7 +155,7 @@ export default function ResponsiveDrawer(props) {
           </ListItemButton>
         </ListItem>
         <ListItem key="evidencias" disablePadding>
-          <ListItemButton>
+          <ListItemButton onClick={() => handleSectionChange("Evidencias")}>
             <ListItemIcon>
               <WallpaperIcon />
             </ListItemIcon>
@@ -149,6 +165,91 @@ export default function ResponsiveDrawer(props) {
       </List>
     </div>
   );
+
+  const renderContent = () => {
+    switch (activeSection) {
+      case "Inicio":
+        return (
+          <>
+            <Typography variant="h5" sx={{ mb: 2 }}>
+              Contenido de Inicio
+            </Typography>
+            <EstadoInicio />
+          </>
+        );
+      case "Lista de Programas":
+        return (
+          <Container display="flex">
+            <Typography variant="h5" sx={{ mb: 2 }}>
+              Contenido de Lista de Programas
+            </Typography>
+            <ProgramasServicio />
+            <Button
+              variant="contained"
+              sx={{ m: 2, color: "white", bgcolor: "green" }}
+            >
+              Solicitar programa
+            </Button>
+          </Container>
+        );
+      case "Solicitudes":
+        return <Typography variant="h5">Contenido de Solicitudes</Typography>;
+      case "Notificaciones":
+        return (
+          <Typography variant="h5">Contenido de Notificaciones</Typography>
+        );
+      case "Firmar Documentos":
+        return (
+          <Typography variant="h5">Contenido de Firmar Documentos</Typography>
+        );
+      case "Reportes Bimestrales":
+        return (
+          <Typography variant="h5">
+            Contenido de Reportes Bimestrales
+          </Typography>
+        );
+      case "Evidencias":
+        return <Typography variant="h5">Contenido de Evidencias</Typography>;
+      default:
+        return (
+          <>
+            <Typography variant="h3" sx={{ marginBottom: 2 }}>
+              Bienvenido al Dashboard
+            </Typography>
+            <Typography sx={{ marginBottom: 2 }}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Rhoncus dolor purus non enim praesent elementum facilisis leo vel.
+              Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
+              gravida rutrum quisque non tellus. Convallis convallis tellus id
+              interdum velit laoreet id donec ultrices. Odio morbi quis commodo
+              odio aenean sed adipiscing. Amet nisl suscipit adipiscing bibendum
+              est ultricies integer quis. Cursus euismod quis viverra nibh cras.
+              Metus vulputate eu scelerisque felis imperdiet proin fermentum
+              leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt
+              lobortis feugiat vivamus at augue. At augue eget arcu dictum
+              varius duis at consectetur lorem. Velit sed ullamcorper morbi
+              tincidunt. Lorem donec massa sapien faucibus et molestie ac.
+            </Typography>
+            <Typography sx={{ marginBottom: 2 }}>
+              Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
+              ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
+              elementum integer enim neque volutpat ac tincidunt. Ornare
+              suspendisse sed nisi lacus sed viverra tellus. Purus sit amet
+              volutpat consequat mauris. Elementum eu facilisis sed odio morbi.
+              Euismod lacinia at quis risus sed vulputate odio. Morbi tincidunt
+              ornare massa eget egestas purus viverra accumsan in. In hendrerit
+              gravida rutrum quisque non tellus orci ac. Pellentesque nec nam
+              aliquam sem et tortor. Habitant morbi tristique senectus et.
+              Adipiscing elit duis tristique sollicitudin nibh sit. Ornare
+              aenean euismod elementum nisi quis eleifend. Commodo viverra
+              maecenas accumsan lacus vel facilisis. Nulla posuere sollicitudin
+              aliquam ultrices sagittis orci a.
+            </Typography>
+          </>
+        );
+    }
+  };
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -243,35 +344,7 @@ export default function ResponsiveDrawer(props) {
         }}
       >
         <Toolbar />
-        <Typography sx={{ marginBottom: 2 }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
-          dolor purus non enim praesent elementum facilisis leo vel. Risus at
-          ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum
-          quisque non tellus. Convallis convallis tellus id interdum velit
-          laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed
-          adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
-          integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate
-          eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo
-          quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat
-          vivamus at augue. At augue eget arcu dictum varius duis at consectetur
-          lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien
-          faucibus et molestie ac.
-        </Typography>
-        <Typography sx={{ marginBottom: 2 }}>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-          ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
-          elementum integer enim neque volutpat ac tincidunt. Ornare suspendisse
-          sed nisi lacus sed viverra tellus. Purus sit amet volutpat consequat
-          mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis
-          risus sed vulputate odio. Morbi tincidunt ornare massa eget egestas
-          purus viverra accumsan in. In hendrerit gravida rutrum quisque non
-          tellus orci ac. Pellentesque nec nam aliquam sem et tortor. Habitant
-          morbi tristique senectus et. Adipiscing elit duis tristique
-          sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
+        {renderContent()}
       </Box>
     </Box>
   );
