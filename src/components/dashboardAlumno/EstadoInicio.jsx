@@ -1,156 +1,212 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
+  Avatar,
+  Box,
+  Button,
   Card,
+  CardActions,
   CardContent,
   CardHeader,
-  Avatar,
-  Typography,
-  LinearProgress,
-  Box,
+  CircularProgress,
   Divider,
-  Button,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
   TextField,
+  Typography,
 } from "@mui/material";
+import Grid2 from "@mui/material/Grid2";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
 
-export default function UserStatusCard() {
-  const [user, setUser] = useState({
-    name: "Juan Pérez",
-    semester: 6,
-    credits: 85,
-    career: "Ingeniería en Sistemas",
-    inProgram: true,
-    program: {
-      id: "12345",
-      name: "Programa de Servicio Social en Tecnología",
-      progressStage: "No iniciado",
-    },
-  });
-
-  const [newCredits, setNewCredits] = useState(user.credits); // Estado para los nuevos créditos
-
-  const { name, semester, credits, career, inProgram, program } = user;
-
-  // Calcular elegibilidad automáticamente
-  const eligible = credits >= 80;
-
-  const progressMap = {
-    "No iniciado": 0,
-    "Bimestre 1": 25,
-    "Bimestre 2": 50,
-    "Bimestre 3": 75,
-    Finalizado: 100,
+export default function EstadoInicio() {
+  const estudianteInicial = {
+    avatar: "",
+    numeroControl: "12345678",
+    nombreCompleto: "Juan Pérez López",
+    carrera: "Ingeniería en Sistemas Computacionales",
+    semestre: "7°",
+    creditosAcumulados: 180,
+    creditosTotales: 240,
+    estadoAlumno: "Inscrito",
   };
 
-  const progressValue = inProgram ? progressMap[program.progressStage] || 0 : 0;
+  const [estudiante, setEstudiante] = useState(estudianteInicial);
 
-  const nextProgressStage = () => {
-    const stages = Object.keys(progressMap);
-    const currentIndex = stages.indexOf(program.progressStage);
-    if (currentIndex < stages.length - 1) {
-      setUser((prevUser) => ({
-        ...prevUser,
-        program: {
-          ...prevUser.program,
-          progressStage: stages[currentIndex + 1],
-        },
+  const [requisitos, setRequisitos] = useState({
+    inscrito: estudiante.estadoAlumno === "Inscrito",
+    porcentajeCreditos:
+      estudiante.creditosAcumulados / estudiante.creditosTotales >= 0.7,
+    platicaInduccion: false,
+  });
+
+  useEffect(() => {
+    setRequisitos({
+      inscrito: estudiante.estadoAlumno === "Inscrito",
+      porcentajeCreditos:
+        estudiante.creditosAcumulados / estudiante.creditosTotales >= 0.7,
+      platicaInduccion: requisitos.platicaInduccion,
+    });
+  }, [estudiante]);
+
+  const handleChangeCreditos = (event) => {
+    const nuevosCreditos = Number(event.target.value);
+    setEstudiante((prev) => ({
+      ...prev,
+      creditosAcumulados: nuevosCreditos,
+    }));
+  };
+
+  const toggleRequisito = (requisito) => {
+    if (requisito !== "inscrito" && requisito !== "porcentajeCreditos") {
+      setRequisitos((prev) => ({
+        ...prev,
+        [requisito]: !prev[requisito],
       }));
     }
   };
 
-  const updateCredits = () => {
-    setUser((prevUser) => ({
-      ...prevUser,
-      credits: newCredits,
+  const toggleEstadoAlumno = () => {
+    setEstudiante((prev) => ({
+      ...prev,
+      estadoAlumno:
+        prev.estadoAlumno === "Inscrito" ? "No Inscrito" : "Inscrito",
     }));
   };
 
-  // Calcular el porcentaje de créditos
-  const creditProgress = Math.min((credits / 80) * 100, 100); // Asegurarse de que no supere 100
+  const calcularProgreso = () => {
+    const valores = Object.values(requisitos);
+    const cumplidos = valores.filter((cumple) => cumple).length;
+    return (cumplidos / valores.length) * 100;
+  };
 
   return (
-    <div style={{ padding: 20 }}>
-      <Card>
-        <CardHeader
-          avatar={<Avatar>{name.charAt(0)}</Avatar>}
-          title={name}
-          subheader={`Semestre: ${semester} | Carrera: ${career}`}
-        />
-        <CardContent>
-          <Typography variant="body1">
-            Créditos Acumulados: {credits}
-          </Typography>
-          <LinearProgress variant="determinate" value={creditProgress} />
-          <Typography variant="caption" color="text.secondary">
-            {credits} / 80 Créditos
-          </Typography>
-          <Typography variant="body1">
-            {eligible
-              ? "Eres apto para solicitar un programa de servicio social."
-              : "No cumples con los requisitos para solicitar un programa de servicio social."}
-          </Typography>
-
-          <Divider sx={{ my: 2 }} />
-
-          {/* Sección del Programa de Servicio Social solo si el usuario tiene 80 créditos o más */}
-          {eligible && inProgram && (
-            <>
-              <Typography variant="h6">Programa de Servicio Social</Typography>
-              <Typography variant="body1">
-                ID del Programa: {program.id}
-              </Typography>
-              <Typography variant="body1">
-                Nombre del Programa: {program.name}
-              </Typography>
-              <Typography variant="h6">
-                Etapa Actual del Servicio Social
-              </Typography>
-              <LinearProgress variant="determinate" value={progressValue} />
-              <Typography variant="caption" color="text.secondary">
-                {program.progressStage}
-              </Typography>
-              <Divider sx={{ my: 2 }} />
-            </>
-          )}
-
-          <Typography variant="h6">
-            Requisitos para Cursar el Servicio Social
-          </Typography>
-          <Box>
-            <Typography variant="body2">- Créditos necesarios: 80</Typography>
-            <Typography variant="body2">
-              - Documentación necesaria: Carta de aceptación, CV, etc.
-            </Typography>
-          </Box>
-
-          <Divider sx={{ my: 2 }} />
-
-          {/* Campo de entrada para actualizar los créditos */}
-          <TextField
-            label="Actualizar Créditos"
-            type="number"
-            value={newCredits}
-            onChange={(e) => setNewCredits(Number(e.target.value))}
-            variant="outlined"
-            fullWidth
-            margin="normal"
+    <Card elevation={3}>
+      <CardHeader
+        avatar={
+          <Avatar src={estudiante.avatar}>
+            {estudiante.nombreCompleto.charAt(0)}
+          </Avatar>
+        }
+        title={estudiante.nombreCompleto}
+        subheader={estudiante.carrera}
+      />
+      <CardContent>
+        <Typography variant="body1">
+          <strong>Número de Control:</strong> {estudiante.numeroControl}
+        </Typography>
+        <Typography variant="body1">
+          <strong>Semestre:</strong> {estudiante.semestre}
+        </Typography>
+        <Typography variant="body1">
+          <strong>Créditos Acumulados:</strong> {estudiante.creditosAcumulados}/
+          {estudiante.creditosTotales}
+        </Typography>
+        <Typography variant="body1" sx={{ mt: 2 }}>
+          <strong>Estado Actual:</strong> {estudiante.estadoAlumno}
+        </Typography>
+        <Box sx={{ my: 2 }}>
+          <Typography variant="h6">Requisitos para solicitar:</Typography>
+          <List>
+            <ListItem>
+              <ListItemIcon>
+                {requisitos.inscrito ? (
+                  <CheckCircleIcon color="success" />
+                ) : (
+                  <CancelIcon color="error" />
+                )}
+              </ListItemIcon>
+              <ListItemText
+                primary="Estar inscrito en el semestre"
+                secondary={requisitos.inscrito ? "Cumplido" : "No cumplido"}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                {requisitos.porcentajeCreditos ? (
+                  <CheckCircleIcon color="success" />
+                ) : (
+                  <CancelIcon color="error" />
+                )}
+              </ListItemIcon>
+              <ListItemText
+                primary="Tener 70% o más de créditos totales"
+                secondary={
+                  requisitos.porcentajeCreditos ? "Cumplido" : "No cumplido"
+                }
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                {requisitos.platicaInduccion ? (
+                  <CheckCircleIcon color="success" />
+                ) : (
+                  <CancelIcon color="error" />
+                )}
+              </ListItemIcon>
+              <ListItemText
+                primary="Asistir a la plática de inducción"
+                secondary={
+                  requisitos.platicaInduccion ? "Cumplido" : "No cumplido"
+                }
+              />
+            </ListItem>
+          </List>
+        </Box>
+        <Divider />
+        <Box sx={{ mt: 2, display: "flex", alignItems: "center" }}>
+          <CircularProgress
+            variant="determinate"
+            value={calcularProgreso()}
+            size={50}
+            thickness={4}
+            color="primary"
           />
-          <Button variant="contained" color="primary" onClick={updateCredits}>
-            Actualizar Créditos
-          </Button>
-
-          <Divider sx={{ my: 2 }} />
-
-          {/* Botón para avanzar a la siguiente etapa */}
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={nextProgressStage}
-            disabled={!inProgram}
-          >
-            Siguiente Etapa
-          </Button>
-        </CardContent>
-      </Card>
-    </div>
+          <Typography sx={{ ml: 2 }} variant="body1">
+            Progreso: {calcularProgreso().toFixed(0)}%
+          </Typography>
+        </Box>
+      </CardContent>
+      <CardActions>
+        <Grid2 container spacing={2} justifyContent="center">
+          <Grid2 xs={12} sm={6} md={4}>
+            <TextField
+              label="Créditos Acumulados"
+              type="number"
+              value={estudiante.creditosAcumulados}
+              onChange={handleChangeCreditos}
+              variant="outlined"
+              size="small"
+              fullWidth
+            />
+          </Grid2>
+          <Grid2 xs={12} sm={6} md={4}>
+            <Button
+              variant="contained"
+              color={requisitos.platicaInduccion ? "success" : "error"}
+              onClick={() => toggleRequisito("platicaInduccion")}
+              fullWidth
+            >
+              {requisitos.platicaInduccion ? "Cumple Inducción" : "No Cumple"}
+            </Button>
+          </Grid2>
+          <Grid2 xs={12} sm={6} md={4}>
+            <Button
+              variant="contained"
+              color={
+                estudiante.estadoAlumno === "Inscrito" ? "success" : "error"
+              }
+              onClick={toggleEstadoAlumno}
+              fullWidth
+            >
+              {estudiante.estadoAlumno === "Inscrito"
+                ? "Marcar No Inscrito"
+                : "Marcar Inscrito"}
+            </Button>
+          </Grid2>
+        </Grid2>
+      </CardActions>
+    </Card>
   );
 }
