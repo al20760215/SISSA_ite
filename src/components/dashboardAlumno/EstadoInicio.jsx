@@ -20,7 +20,7 @@ import Grid2 from "@mui/material/Grid2";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 
-export default function EstadoInicio() {
+export default function EstadoInicio(props) {
   const estudianteInicial = {
     avatar: "",
     numeroControl: "12345678",
@@ -148,7 +148,18 @@ export default function EstadoInicio() {
               <ListItemText
                 primary="Asistir a la plática de inducción"
                 secondary={
-                  requisitos.platicaInduccion ? "Cumplido" : "No cumplido"
+                  requisitos.platicaInduccion ? (
+                    "Cumplido"
+                  ) : (
+                    <Typography
+                      color="blue"
+                      onClick={() =>
+                        props.handleSectionChange("Platica Servicio")
+                      }
+                    >
+                      No cumplido - Haz Click aqui para realizarla
+                    </Typography>
+                  )
                 }
               />
             </ListItem>

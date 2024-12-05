@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import VoiceIcon from "@mui/icons-material/RecordVoiceOver";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotifIcon from "@mui/icons-material/Notifications";
 import BallotIcon from "@mui/icons-material/Ballot";
@@ -29,8 +30,9 @@ import NoteIcon from "@mui/icons-material/NoteAlt";
 import WallpaperIcon from "@mui/icons-material/Wallpaper";
 import logoite from "../assets/itelogo.png";
 import { Link, useNavigate } from "react-router-dom";
-import ProgramasServicio from "../components/dashboardAlumno/Programas";
+import ProgramasServicio from "../components/dashboardAdmin/Programas";
 import EstadoInicio from "../components/dashboardAlumno/EstadoInicio";
+import PlaticaServicio from "../components/dashboardAlumno/PlaticaServicio";
 const drawerWidth = 240;
 
 export default function ResponsiveDrawer(props) {
@@ -115,12 +117,14 @@ export default function ResponsiveDrawer(props) {
             <ListItemText primary={"Lista de Programas"} />
           </ListItemButton>
         </ListItem>
-        <ListItem key="solicitudes" disablePadding>
-          <ListItemButton onClick={() => handleSectionChange("Solicitudes")}>
+        <ListItem key="platicaservicio" disablePadding>
+          <ListItemButton
+            onClick={() => handleSectionChange("Platica Servicio")}
+          >
             <ListItemIcon>
-              <MailIcon />
+              <VoiceIcon />
             </ListItemIcon>
-            <ListItemText primary={"Solicitudes"} />
+            <ListItemText primary={"Platica del Servicio"} />
           </ListItemButton>
         </ListItem>
         <ListItem key="notificaciones" disablePadding>
@@ -174,7 +178,7 @@ export default function ResponsiveDrawer(props) {
             <Typography variant="h5" sx={{ mb: 2 }}>
               Contenido de Inicio
             </Typography>
-            <EstadoInicio />
+            <EstadoInicio handleSectionChange={handleSectionChange} />
           </>
         );
       case "Lista de Programas":
@@ -192,8 +196,15 @@ export default function ResponsiveDrawer(props) {
             </Button>
           </Container>
         );
-      case "Solicitudes":
-        return <Typography variant="h5">Contenido de Solicitudes</Typography>;
+      case "Platica Servicio":
+        return (
+          <Container display="flex">
+            <Typography variant="h5" sx={{ mb: 2 }}>
+              Platica del servicio social
+            </Typography>
+            <PlaticaServicio />
+          </Container>
+        );
       case "Notificaciones":
         return (
           <Typography variant="h5">Contenido de Notificaciones</Typography>

@@ -24,7 +24,7 @@ import SchoolIcon from "@mui/icons-material/School";
 import FaceIcon from "@mui/icons-material/Face";
 import ArticleIcon from "@mui/icons-material/Article";
 import { useState } from "react";
-import ProgramasServicio from "../components/dashboardAlumno/Programas";
+import ProgramasServicio from "../components/dashboardAdmin/Programas";
 
 const drawerWidth = 240;
 

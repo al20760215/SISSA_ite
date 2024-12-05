@@ -1,0 +1,223 @@
+[
+  {
+    "pregunta": "¿Cuál es la principal obligación del alumno al iniciar su servicio social?",
+    "respuestas": [
+      "Inscribirse en el programa",
+      "Elegir un tutor",
+      "Asistir a las pláticas informativas",
+      "Completar el registro en línea"
+    ],
+    "respuestaCorrecta": "Inscribirse en el programa"
+  },
+  {
+    "pregunta": "¿Qué documento es obligatorio presentar antes de iniciar el servicio social?",
+    "respuestas": [
+      "Carta compromiso",
+      "Carta de aceptación",
+      "Identificación oficial",
+      "Formato de registro"
+    ],
+    "respuestaCorrecta": "Carta compromiso"
+  },
+  {
+    "pregunta": "¿Qué debe entregar el alumno para validar sus horas de servicio social?",
+    "respuestas": [
+      "Un comprobante de pago",
+      "Un informe mensual",
+      "Una bitácora firmada por el encargado",
+      "Una carta de aceptación"
+    ],
+    "respuestaCorrecta": "Una bitácora firmada por el encargado"
+  },
+  {
+    "pregunta": "¿Cuántas horas mínimas debe cumplir un estudiante en el servicio social?",
+    "respuestas": ["300", "400", "480", "500"],
+    "respuestaCorrecta": "480"
+  },
+  {
+    "pregunta": "¿Cuándo se considera completo el servicio social de un estudiante?",
+    "respuestas": [
+      "Cuando recibe su constancia oficial",
+      "Cuando cumple las 480 horas",
+      "Cuando entrega el informe final",
+      "Todas las anteriores"
+    ],
+    "respuestaCorrecta": "Todas las anteriores"
+  },
+  {
+    "pregunta": "¿Qué debe realizar el tutor para apoyar al estudiante?",
+    "respuestas": [
+      "Asignarle tareas administrativas",
+      "Supervisar y evaluar el desempeño del estudiante",
+      "Registrar las horas completadas del estudiante"
+    ],
+    "respuestaCorrecta": "Supervisar y evaluar el desempeño del estudiante"
+  },
+  {
+    "pregunta": "¿Qué información debe proporcionar el tutor al inicio del servicio social?",
+    "respuestas": [
+      "Horarios y responsabilidades",
+      "Formato de inscripción",
+      "Beneficios económicos del programa"
+    ],
+    "respuestaCorrecta": "Horarios y responsabilidades"
+  },
+  {
+    "pregunta": "¿Cuál es una obligación de los encargados del programa de servicio social?",
+    "respuestas": [
+      "Emitir la constancia de término",
+      "Realizar una auditoría de las horas del estudiante",
+      "Validar los informes mensuales"
+    ],
+    "respuestaCorrecta": "Emitir la constancia de término"
+  },
+  {
+    "pregunta": "¿Qué debe hacer el encargado si el alumno no cumple con las tareas asignadas?",
+    "respuestas": [
+      "Notificar al área académica correspondiente",
+      "Cancelar el servicio social del estudiante",
+      "Darle más tareas como sanción"
+    ],
+    "respuestaCorrecta": "Notificar al área académica correspondiente"
+  },
+  {
+    "pregunta": "¿Qué documento emite el encargado al finalizar el servicio social del alumno?",
+    "respuestas": [
+      "Carta de aceptación",
+      "Carta de terminación",
+      "Registro de actividades"
+    ],
+    "respuestaCorrecta": "Carta de terminación"
+  },
+  {
+    "pregunta": "¿Cuál es el propósito principal del servicio social universitario?",
+    "respuestas": [
+      "Ayudar a las instituciones públicas",
+      "Reforzar los aprendizajes académicos del estudiante",
+      "Cumplir con las normativas legales",
+      "Todas las anteriores"
+    ],
+    "respuestaCorrecta": "Todas las anteriores"
+  },
+  {
+    "pregunta": "¿Qué debe contener el informe final del servicio social?",
+    "respuestas": [
+      "Horas totales cumplidas",
+      "Descripción de las actividades realizadas",
+      "Firma del tutor",
+      "Todas las anteriores"
+    ],
+    "respuestaCorrecta": "Todas las anteriores"
+  },
+  {
+    "pregunta": "¿En qué momento debe realizar el alumno la inscripción al servicio social?",
+    "respuestas": [
+      "Durante el primer semestre",
+      "Al acumular el 70% de los créditos de la carrera",
+      "Después de elegir un programa",
+      "Al final de la carrera"
+    ],
+    "respuestaCorrecta": "Al acumular el 70% de los créditos de la carrera"
+  },
+  {
+    "pregunta": "¿Qué se evalúa en el informe mensual del servicio social?",
+    "respuestas": [
+      "Tareas completadas y actitud del estudiante",
+      "Cantidad de horas trabajadas",
+      "Participación en reuniones",
+      "Todas las anteriores"
+    ],
+    "respuestaCorrecta": "Todas las anteriores"
+  },
+  {
+    "pregunta": "¿Qué puede hacer un alumno si no está de acuerdo con la evaluación de su tutor?",
+    "respuestas": [
+      "Repetir las actividades",
+      "Solicitar una revisión al comité académico",
+      "Presentar una carta de inconformidad"
+    ],
+    "respuestaCorrecta": "Solicitar una revisión al comité académico"
+  },
+  {
+    "pregunta": "¿Quién es responsable de designar las tareas específicas del estudiante?",
+    "respuestas": [
+      "El tutor del programa",
+      "El área académica",
+      "La institución receptora"
+    ],
+    "respuestaCorrecta": "El tutor del programa"
+  },
+  {
+    "pregunta": "¿Qué institución regula los lineamientos del servicio social en México?",
+    "respuestas": ["SEP", "CONACyT", "STPS"],
+    "respuestaCorrecta": "SEP"
+  },
+  {
+    "pregunta": "¿Quién puede autorizar cambios en el programa asignado al estudiante?",
+    "respuestas": [
+      "El tutor únicamente",
+      "El encargado del programa con autorización académica",
+      "El estudiante si avisa con anticipación"
+    ],
+    "respuestaCorrecta": "El encargado del programa con autorización académica"
+  },
+  {
+    "pregunta": "¿Qué organismo valida la constancia final del servicio social?",
+    "respuestas": [
+      "El consejo académico de la universidad",
+      "El área de servicios escolares",
+      "La institución donde se realizó el servicio social"
+    ],
+    "respuestaCorrecta": "El área de servicios escolares"
+  },
+  {
+    "pregunta": "¿Qué responsabilidad tienen los estudiantes al elegir un programa?",
+    "respuestas": [
+      "Elegir uno que cumpla con los requisitos académicos",
+      "Asistir a una entrevista inicial",
+      "Presentar un proyecto final"
+    ],
+    "respuestaCorrecta": "Elegir uno que cumpla con los requisitos académicos"
+  },
+  {
+    "pregunta": "¿Qué debe hacer el estudiante si necesita cambiar de programa de servicio social?",
+    "respuestas": [
+      "Completar las horas restantes en el nuevo programa",
+      "Solicitar un cambio mediante carta formal",
+      "Ambas son correctas"
+    ],
+    "respuestaCorrecta": "Ambas son correctas"
+  },
+  {
+    "pregunta": "¿Qué ocurre si un estudiante no completa el servicio social?",
+    "respuestas": [
+      "No puede titularse",
+      "Puede repetir las actividades",
+      "Debe pagar una multa"
+    ],
+    "respuestaCorrecta": "No puede titularse"
+  },
+  {
+    "pregunta": "¿Cuánto tiempo tiene un estudiante para completar su servicio social una vez iniciado?",
+    "respuestas": ["6 meses", "1 año", "2 años"],
+    "respuestaCorrecta": "2 años"
+  },
+  {
+    "pregunta": "¿Cuál es una obligación del encargado de la institución receptora?",
+    "respuestas": [
+      "Brindar un espacio adecuado para las actividades",
+      "Proporcionar transporte al estudiante",
+      "Asignar horas extra en caso necesario"
+    ],
+    "respuestaCorrecta": "Brindar un espacio adecuado para las actividades"
+  },
+  {
+    "pregunta": "¿Qué tipo de actividades están prohibidas durante el servicio social?",
+    "respuestas": [
+      "Tareas administrativas",
+      "Actividades ajenas al objetivo académico del programa",
+      "Reuniones con otros estudiantes"
+    ],
+    "respuestaCorrecta": "Actividades ajenas al objetivo académico del programa"
+  }
+]
