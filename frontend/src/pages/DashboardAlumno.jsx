@@ -38,9 +38,13 @@ const drawerWidth = 240;
 
 export default function ResponsiveDrawer(props) {
   const fetchAlumnos = async () => {
-    const response = await axios.get("http://localhost/alumnos");
-    const alumnos = response.data;
-    return alumnos;
+    try {
+      const response = await axios.get("http://localhost/alumnos");
+      const alumnos = response.data;
+      return alumnos;
+    } catch (error) {
+      return error.message;
+    }
   };
 
   const navigate = useNavigate();
