@@ -33,9 +33,16 @@ import { Link, useNavigate } from "react-router-dom";
 import ProgramasServicio from "../components/dashboardAdmin/Programas";
 import EstadoInicio from "../components/dashboardAlumno/EstadoInicio";
 import PlaticaServicio from "../components/dashboardAlumno/PlaticaServicio";
+import axios from "axios";
 const drawerWidth = 240;
 
 export default function ResponsiveDrawer(props) {
+  const fetchAlumnos = async () => {
+    const response = await axios.get("http://localhost/alumnos");
+    const alumnos = response.data;
+    return alumnos;
+  };
+
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
@@ -45,6 +52,10 @@ export default function ResponsiveDrawer(props) {
   const handleDrawerClose = () => {
     setIsClosing(true);
     setMobileOpen(false);
+  };
+
+  const handleSolicitarClick = async () => {
+    console.log(await fetchAlumnos());
   };
 
   const handleDrawerTransitionEnd = () => {
@@ -191,6 +202,7 @@ export default function ResponsiveDrawer(props) {
             <Button
               variant="contained"
               sx={{ m: 2, color: "white", bgcolor: "green" }}
+              onClick={() => handleSolicitarClick()}
             >
               Solicitar programa
             </Button>
