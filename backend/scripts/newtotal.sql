@@ -798,17 +798,10 @@ CREATE TABLE public.usuarios (
     "contraseña" bytea NOT NULL,
     fechacreacion timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     fechavencimiento timestamp without time zone DEFAULT (CURRENT_TIMESTAMP + '6 mons'::interval),
-    alumnoid integer,
-    maestroid integer,
-    encargadoid integer,
     CONSTRAINT usuarios_tipousuario_check CHECK (((tipousuario)::text = ANY ((ARRAY['alumno'::character varying, 'maestro'::character varying, 'encargado'::character varying, 'sys'::character varying])::text[])))
 );
 
 
-ALTER TABLE public.usuarios OWNER TO postgres;
-alter table public.usuarios drop column alumnoid;
-alter table public.usuarios drop column maestroid;
-alter table public.usuarios drop column encargadoid;
 --
 -- TOC entry 227 (class 1259 OID 16953)
 -- Name: usuarios_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -1128,7 +1121,7 @@ COPY public.tutores (id, nombre, apellido1, apellido2, nocontrol, puesto, jefeac
 -- Data for Name: usuarios; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.usuarios (id, usuario, tipousuario, "contraseña", fechacreacion, fechavencimiento, alumnoid, maestroid, encargadoid) FROM stdin;
+COPY public.usuarios (id, usuario, tipousuario, "contraseña", fechacreacion, fechavencimiento) FROM stdin;
 \.
 
 
@@ -1691,26 +1684,17 @@ ALTER TABLE ONLY public.tutores
 -- Name: usuarios usuarios_alumnoid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.usuarios
-    ADD CONSTRAINT usuarios_alumnoid_fkey FOREIGN KEY (alumnoid) REFERENCES public.alumnos(id);
-
 
 --
 -- TOC entry 4807 (class 2606 OID 16977)
 -- Name: usuarios usuarios_encargadoid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.usuarios
-    ADD CONSTRAINT usuarios_encargadoid_fkey FOREIGN KEY (encargadoid) REFERENCES public.encargados(id);
-
 
 --
 -- TOC entry 4808 (class 2606 OID 16972)
 -- Name: usuarios usuarios_maestroid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
-
-ALTER TABLE ONLY public.usuarios
-    ADD CONSTRAINT usuarios_maestroid_fkey FOREIGN KEY (maestroid) REFERENCES public.maestros(id);
 
 
 -- Completed on 2024-11-26 20:11:27

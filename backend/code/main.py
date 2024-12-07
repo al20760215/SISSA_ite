@@ -101,13 +101,8 @@ def validar_relacion_foreanea(conn, tabla, id):
     existe = cur.fetchone()
     cur.close()
     return existe is not None
-
-
-
-
-
-
 # configuracion de /uploads
+
 UPLOAD_FOLDER = "/uploads"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = {'docx', 'pdf'}
@@ -230,30 +225,6 @@ def home():
 @app.route('/pagina')
 def pagina():
     return "Esta es la pagina en el endpoint /pagina.\nSin limite especifico pero es Afectado por el limite global de 10 por hora c:"
-
-@app.route('/usuarios')
-@limiter.limit("2 per minute")  # Limitar la consulta de usuarios a 2 por min
-def usuarios():
-    # Funcion para obtener la lista de usuarios de la base de datos
-    try:
-        # Establece la conexion con la base de datos
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        # Consulta para obtener los usuarios
-        query = sql.SQL("SELECT * FROM alumnos")
-        # Ejecuta la consulta
-        cursor.execute(query)
-        # Obtén todos los resultados
-        users = cursor.fetchall()     
-        # Cierra el cursor y la conexion
-        cursor.close()
-        conn.close()
-        
-    except Exception as e:
-        print(f"Ocurrió un error: {e}")
-        return {"error": str(e)}
-
-    return users
 
 @app.route('/upload', methods=['POST'])
 @jwt_required
