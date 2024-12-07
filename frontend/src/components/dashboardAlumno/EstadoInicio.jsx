@@ -32,6 +32,29 @@ export default function EstadoInicio(props) {
     estadoAlumno: "Inscrito",
   };
 
+  // const estudianteInicial = {
+  //   avatar: "",
+  //   numerocontrol: "12345678",
+  //   reprobadas: 0,
+  //   grupo: "7SS",
+  //   telefono: "123",
+  //   direccion: "",
+  //   imagenperfil: "",
+  //   segurosocial: false,
+  //   correo: "adasd@gmail.com",
+  //   nombres: "Juan",
+  //   apellido1: "Pérez",
+  //   apellido2: "López",
+  //   especialidad: "Ingeniería en Sistemas Computacionales",
+  //   semestre: 7,
+  //   cantidadcreditos: 180,
+  //   creditosTotales: 240,
+  //   estadoAlumno: "Inscrito",
+  // };
+
+  // const [estudiante, setEstudiante] = useState(
+  //   props.usuario ? props.usuario : estudianteInicial
+  // );
   const [estudiante, setEstudiante] = useState(estudianteInicial);
 
   const [requisitos, setRequisitos] = useState({
@@ -85,7 +108,7 @@ export default function EstadoInicio(props) {
     <Card elevation={3}>
       <CardHeader
         avatar={
-          <Avatar src={estudiante.avatar}>
+          <Avatar src={estudiante.avatar ? estudiante.avatar : ""}>
             {estudiante.nombreCompleto.charAt(0)}
           </Avatar>
         }

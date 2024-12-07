@@ -219,7 +219,7 @@ export default function ResponsiveDrawer(props) {
             <Typography variant="h5" sx={{ mb: 2 }}>
               Contenido de Inicio
             </Typography>
-            <EstadoInicio handleSectionChange={handleSectionChange} />
+            <EstadoInicio usuario handleSectionChange={handleSectionChange} />
           </>
         );
       case "Lista de Programas":

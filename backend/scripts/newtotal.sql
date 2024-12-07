@@ -171,6 +171,7 @@ ALTER SEQUENCE public.administradoresdb_id_seq OWNED BY public.administradoresdb
 CREATE TABLE public.alumnos (
     id integer NOT NULL,
     nombres character varying(100) NOT NULL,
+    numerocontrol integer NOT NULL,
     apellido1 character varying(100) NOT NULL,
     apellido2 character varying(100) NOT NULL,
     semestre integer NOT NULL,

@@ -1,59 +1,81 @@
-import { Link, useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import {
-  Button,
-  Container,
-  Typography,
   Box,
   Card,
-  CardActions,
   CardContent,
+  Typography,
   TextField,
+  Button,
+  Grid,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
-import Grid from "@mui/material/Grid2";
-import loginbg from "../assets/ensenada.jpg";
-import axios from "axios";
+import registerBg from "../assets/ensenada.jpg";
 
 export default function Register() {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  useEffect(() => {
-    //check if user is logged in
-    const isAdmin = false;
-    const isUser = false;
-    const isTutor = false;
-    if (isAdmin) {
-      navigate("/admin/dashboard");
-    }
-    if (isTutor) {
-      navigate("/tutor/dashboard");
-    }
-    if (isUser) {
-      navigate("/user/dashboard");
-    }
+
+  const [formData, setFormData] = useState({
+    numerocontrol: "",
+    nombres: "",
+    apellido1: "",
+    apellido2: "",
+    semestre: "",
+    cantidadcreditos: "",
+    reprobadas: "",
+    grupo: "",
+    especialidad: "",
+    telefono: "",
+    direccion: "",
+    segurosocial: false,
+    correo: "",
   });
 
-  const handleLoginClick = async () => {
-    try {
-      const response = await axios.post("http://localhost:8080/login", {
-        username: username,
-        password: password,
-      });
-      const data = response.data;
-      console.log(data);
-      if (data.token) {
-        localStorage.setItem(
-          "usuarioLocal",
-          JSON.stringify({
-            token: data.token,
-            tokenRefresh: data.tokenRefresh,
-          })
-        );
-        navigate("/user/dashboard");
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    const requiredFields = [
+      "numerocontrol",
+      "nombres",
+      "apellido1",
+      "apellido2",
+      "semestre",
+      "cantidadcreditos",
+      "especialidad",
+      "correo",
+    ];
+    requiredFields.forEach((field) => {
+      if (!formData[field]) {
+        newErrors[field] = "Este campo es obligatorio";
       }
-    } catch (error) {
-      console.error(error);
+    });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleRegisterClick = async () => {
+    if (validateForm()) {
+      try {
+        const response = await axios.post(
+          "http://localhost:8080/register",
+          formData
+        );
+        console.log(response.data);
+        navigate("/login");
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -63,8 +85,8 @@ export default function Register() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        minHeight: "100vh", //vh = viewport height
-        backgroundImage: `url(${loginbg})`,
+        minHeight: "100vh",
+        backgroundImage: `url(${registerBg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         padding: { xs: 2, sm: 0 },
@@ -72,51 +94,93 @@ export default function Register() {
     >
       <Card
         sx={{
-          width: { xs: "100%", sm: "70%", md: "50%", lg: "30%" }, // breakpoints
-          my: { xs: 2, sm: 0 }, // Vertical margin on small screens
-          p: { xs: 2, sm: 4 }, // Smaller padding on small screens
+          width: { xs: "100%", sm: "70%", md: "50%", lg: "40%" },
+          my: { xs: 2, sm: 0 },
+          p: { xs: 2, sm: 4 },
           boxShadow: 3,
-          maxWidth: "90vw", // vh = viewport width
-          minWidth: 300,
+          maxWidth: "90vw",
         }}
       >
-        <CardContent align="center">
-          <Typography variant="h5" color="textPrimary">
-            SISTEMA INTEGRAL DE SERVICIO SOCIAL ALBATROS
-          </Typography>
-          <Typography color="textSecondary" gutterBottom>
-            INSTITUTO TECNOLOGICO DE ENSENADA 2024
-          </Typography>
-          <TextField
-            label="USUARIO"
-            fullWidth
-            variant="outlined"
-            margin="normal"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          ></TextField>
-          <TextField
-            label="CONTRASEÑA"
-            fullWidth
-            variant="outlined"
-            type="password"
-            margin="normal"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          ></TextField>
-          <Button
-            onClick={() => handleLoginClick()}
-            variant="contained"
-            sx={{ mt: 2, mx: 4 }}
+        <CardContent>
+          <Typography
+            variant="h5"
+            color="textPrimary"
+            align="center"
+            gutterBottom
           >
-            Iniciar sesion
+            Registro de Usuario
+          </Typography>
+          <Grid container spacing={2}>
+            {[
+              {
+                label: "Número de Control",
+                name: "numerocontrol",
+                type: "number",
+              },
+              { label: "Nombres", name: "nombres" },
+              { label: "Primer Apellido", name: "apellido1" },
+              { label: "Segundo Apellido", name: "apellido2" },
+              { label: "Semestre", name: "semestre", type: "number" },
+              {
+                label: "Cantidad de Créditos",
+                name: "cantidadcreditos",
+                type: "number",
+              },
+              {
+                label: "Materias Reprobadas",
+                name: "reprobadas",
+                type: "number",
+                optional: true,
+              },
+              { label: "Grupo", name: "grupo", optional: true },
+              { label: "Especialidad", name: "especialidad" },
+              { label: "Teléfono", name: "telefono", optional: true },
+              { label: "Dirección", name: "direccion", optional: true },
+              { label: "Correo Electrónico", name: "correo" },
+            ].map(({ label, name, type = "text", optional }) => (
+              <Grid item xs={12} sm={6} key={name}>
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  label={`${label}${optional ? " (Opcional)" : ""}`}
+                  name={name}
+                  type={type}
+                  value={formData[name]}
+                  onChange={handleChange}
+                  error={!!errors[name]}
+                  helperText={errors[name] || ""}
+                />
+              </Grid>
+            ))}
+            <Grid item xs={12}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={formData.segurosocial}
+                    onChange={handleChange}
+                    name="segurosocial"
+                  />
+                }
+                label="¿Cuenta con Seguro Social?"
+              />
+            </Grid>
+          </Grid>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            sx={{ mt: 3 }}
+            onClick={handleRegisterClick}
+          >
+            Registrarse
           </Button>
           <Button
-            onClick={() => navigate("/register")}
+            fullWidth
             variant="outlined"
             sx={{ mt: 2 }}
+            onClick={() => navigate("/login")}
           >
-            registrarse
+            Cancelar
           </Button>
         </CardContent>
       </Card>
