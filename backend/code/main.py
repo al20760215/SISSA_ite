@@ -10,6 +10,7 @@ from flask_jwt_extended import JWTManager, create_access_token, create_refresh_t
 import datetime
 from datetime import timedelta
 
+
 app = Flask(__name__)
 cors = CORS(app)
 app.secret_key = os.getenv('SECRET_KEY', 'your_secret_key')
@@ -20,6 +21,91 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(minutes=15)  # Expir
 app.config["JWT_REFRESH_TOKEN_EXPIRES"] = datetime.timedelta(days=30)    # Expiracion default de 30 días (se pueden cambiar a la hora de generar tokens especificas)
 
 jwt = JWTManager(app)
+
+def get_db_connection():
+    conn = psycopg2.connect(
+        dbname="sissa_postgres_db",  
+        user="postgres",       
+        password="password",  
+        host="db",             
+        port="5432"
+    )
+    return conn
+
+@app.route('/usuarios', methods=['GET'])
+def obtener_usuarios():
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    try:
+        cur.execute("SELECT id, usuario, tipousuario, fechacreacion, fechavencimiento FROM usuarios")
+        usuarios = cur.fetchall()
+
+        resultado = [
+            {
+                "id": usuario[0],
+                "usuario": usuario[1],
+                "tipo_usuario": usuario[2],
+                "fecha_creacion": usuario[3],
+                "fecha_vencimiento": usuario[4],
+            }
+            for usuario in usuarios
+        ]
+        return jsonify(resultado), 200
+    except Exception as e:
+        return jsonify({"msg": str(e)}), 500
+    finally:
+        cur.close()
+        conn.close()
+
+@app.route('/addusuarios', methods=['POST'])
+def agregar_usuario():
+    data = request.get_json()
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    try:
+        usuario = data.get('usuario')
+        tipousuario = data.get('tipousuario')
+        contraseña = data.get('contraseña')
+
+
+        if not (usuario and tipousuario and contraseña):
+            return jsonify({"msg": "Faltan campos obligatorios"}), 400
+
+        tipos_validos = ['alumno', 'maestro', 'encargado', 'sys']
+        if tipousuario not in tipos_validos:
+            return jsonify({"msg": "El tipo de usuario no es válido"}), 400
+
+
+        query = """
+        INSERT INTO usuarios (usuario, tipousuario, contraseña)
+        VALUES (%s, %s, %s)
+        """
+        cur.execute(query, (usuario, tipousuario, contraseña))
+        conn.commit()
+
+        return jsonify({"msg": "Usuario agregado exitosamente"}), 201
+    except Exception as e:
+        return jsonify({"msg": str(e)}), 500
+    finally:
+        cur.close()
+        conn.close()
+
+
+# Validar relación de claves foráneas
+def validar_relacion_foreanea(conn, tabla, id):
+    cur = conn.cursor()
+    query = f"SELECT 1 FROM {tabla} WHERE id = %s"
+    cur.execute(query, (id,))
+    existe = cur.fetchone()
+    cur.close()
+    return existe is not None
+
+
+
+
+
 
 # configuracion de /uploads
 UPLOAD_FOLDER = "/uploads"

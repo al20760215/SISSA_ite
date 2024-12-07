@@ -806,7 +806,9 @@ CREATE TABLE public.usuarios (
 
 
 ALTER TABLE public.usuarios OWNER TO postgres;
-
+alter table public.usuarios drop column alumnoid;
+alter table public.usuarios drop column maestroid;
+alter table public.usuarios drop column encargadoid;
 --
 -- TOC entry 227 (class 1259 OID 16953)
 -- Name: usuarios_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
