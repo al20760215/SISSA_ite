@@ -14,7 +14,7 @@ import Grid from "@mui/material/Grid2";
 import loginbg from "../assets/ensenada.jpg";
 import axios from "axios";
 
-export default function HomePage() {
+export default function Register() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

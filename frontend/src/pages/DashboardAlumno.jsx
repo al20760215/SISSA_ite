@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import {
   AppBar,
   Box,
@@ -36,24 +36,37 @@ import PlaticaServicio from "../components/dashboardAlumno/PlaticaServicio";
 import axios from "axios";
 import EstadoSolicitud from "../components/dashboardAlumno/EstadoSolicitud";
 import ReportesBimestrales from "../components/dashboardAlumno/ReportesBimestrales";
+import ReporteFinal from "../components/dashboardAlumno/ReporteFinal";
+import TerminacionServicio from "../components/dashboardAlumno/TerminacionServicio";
 const drawerWidth = 240;
 
 export default function ResponsiveDrawer(props) {
-  const fetchAlumnos = async () => {
-    try {
-      const response = await axios.get("http://localhost/alumnos");
-      const alumnos = response.data;
-      return alumnos;
-    } catch (error) {
-      return error.message;
-    }
-  };
-
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [activeSection, setActiveSection] = React.useState(""); // Estado para la seccion activa
+  const [usuario, setUsuario] = React.useState({});
+  useEffect(() => {
+    const datosGuardados = JSON.parse(localStorage.getItem("usuarioLocal"));
+    if (datosGuardados) {
+      setUsuario(fetchProtected(datosGuardados.token));
+    }
+  });
+
+  const fetchProtected = async (token) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/protected",
+        null,
+        { Authorization: `Bearer ${token}` }
+      );
+      const data = response.data;
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -61,7 +74,7 @@ export default function ResponsiveDrawer(props) {
   };
 
   const handleSolicitarClick = async () => {
-    console.log(await fetchAlumnos());
+    console.log(await fetchProtected());
   };
 
   const handleDrawerTransitionEnd = () => {
@@ -157,17 +170,7 @@ export default function ResponsiveDrawer(props) {
       </List>
       <Divider />
       <List>
-        {/* <ListItem key="firmarDocs" disablePadding>
-          <ListItemButton
-            onClick={() => handleSectionChange("Firmar Documentos")}
-          >
-            <ListItemIcon>
-              <SignIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Firmar Documentos"} />
-          </ListItemButton>
-        </ListItem> */}
-        <ListItem key="reportesBim" disablePadding>
+        <ListItem key="reportesbimestrales" disablePadding>
           <ListItemButton
             onClick={() => handleSectionChange("Reportes Bimestrales")}
           >
@@ -175,6 +178,25 @@ export default function ResponsiveDrawer(props) {
               <NoteIcon />
             </ListItemIcon>
             <ListItemText primary={"Reportes bimestrales"} />
+          </ListItemButton>
+        </ListItem>
+        <ListItem key="reportefinal" disablePadding>
+          <ListItemButton onClick={() => handleSectionChange("Reporte Final")}>
+            <ListItemIcon>
+              <NoteIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Reporte final"} />
+          </ListItemButton>
+        </ListItem>
+        <Divider />
+        <ListItem key="terminacionservicio" disablePadding>
+          <ListItemButton
+            onClick={() => handleSectionChange("Terminacion del Servicio")}
+          >
+            <ListItemIcon>
+              <SignIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Terminacion del Servicio"} />
           </ListItemButton>
         </ListItem>
         {/* <ListItem key="evidencias" disablePadding>
@@ -224,19 +246,12 @@ export default function ResponsiveDrawer(props) {
             <EstadoSolicitud alumnoId={12345} />
           </Container>
         );
-      case "Firmar Documentos":
-        return (
-          <Typography variant="h5">Contenido de Firmar Documentos</Typography>
-        );
+      case "Terminacion del Servicio":
+        return <TerminacionServicio />;
       case "Reportes Bimestrales":
-        return (
-          <Container display="flex">
-            <Typography variant="h5">
-              Contenido de Reportes Bimestrales
-            </Typography>
-            <ReportesBimestrales />
-          </Container>
-        );
+        return <ReportesBimestrales />;
+      case "Reporte Final":
+        return <ReporteFinal />;
       case "Evidencias":
         return <Typography variant="h5">Contenido de Evidencias</Typography>;
       default:

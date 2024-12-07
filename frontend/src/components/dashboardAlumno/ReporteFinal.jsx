@@ -34,9 +34,15 @@ const ReporteFinal = () => {
         "Promover el conocimiento",
         "Fomentar el trabajo en equipo",
       ],
-      actividades: ["Actividad 1", "Actividad 2", "Actividad 3"],
+      actividades: [
+        "Apoyar en clases de regularización.",
+        "Diseñar materiales didácticos.",
+        "Monitorear el progreso académico.",
+        "Realizar talleres de emprendimiento.",
+        "Organizar brigadas de plantación.",
+      ],
     },
-    estadoRevision: "Pendiente de revisión",
+    estadoRevision: "Pendiente",
     reporteEnviado: false,
   });
 
@@ -96,7 +102,18 @@ const ReporteFinal = () => {
       <Typography variant="h4" gutterBottom>
         Reporte Final
       </Typography>
-
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="body1">
+          <Typography
+            component="span"
+            variant="h6"
+            sx={{ fontWeight: "bold", color: "primary.main" }}
+          >
+            Estado de revisión:
+          </Typography>{" "}
+          {datosAlumno.estadoRevision}
+        </Typography>
+      </Box>
       {/* Datos del Alumno */}
       <Box sx={{ mb: 4 }}>
         <Typography variant="h6">Datos del Alumno</Typography>
@@ -119,9 +136,6 @@ const ReporteFinal = () => {
         </Typography>
         <Typography>
           Objetivo General: {datosAlumno.programa.objetivoGeneral}
-        </Typography>
-        <Typography>
-          Estado de Revisión: {datosAlumno.estadoRevision}
         </Typography>
       </Box>
 
@@ -182,9 +196,7 @@ const ReporteFinal = () => {
             <Grid item xs={4} key={index}>
               <Box
                 component="img"
-                src={`/frontend/src/assets/testevidencias/evidencia${
-                  index + 1
-                }.jpg`}
+                src={`/src/assets/testevidencias/evidencia${index + 1}.jpg`}
                 alt={`Evidencia ${index + 1}`}
                 sx={{ width: "100%", height: "auto", borderRadius: 1 }}
               />

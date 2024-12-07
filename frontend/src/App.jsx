@@ -1,4 +1,5 @@
 import Login from "./pages/Login.jsx";
+import Register from "./pages/Register.jsx";
 import HomeAbout from "./pages/HomeAbout.jsx";
 import HomeAbout2 from "./pages/HomeAbout2.jsx";
 import Page404 from "./pages/404.jsx";
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomeAbout2 />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/Register" element={<Register />} />
 
           <Route path="/admin">
             <Route path="dashboard" element={<Dashboard />} />
