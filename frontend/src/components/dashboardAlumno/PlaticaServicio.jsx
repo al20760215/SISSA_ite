@@ -94,18 +94,35 @@ const PlaticaServicio = ({ alumno }) => {
           intentosFallidos: 0,
         })
       );
+      setNotificacion({
+        open: true,
+        message: `¡Felicidades! Aprobaste con un ${porcentajeCorrectas.toFixed(
+          2
+        )}% de respuestas correctas.`,
+      });
     } else {
       const nuevosIntentos = intentosFallidos + 1;
+      const intentosRestantes = 3 - nuevosIntentos;
+
       const proximaFecha =
         nuevosIntentos >= 3
-          ? new Date(Date.now() + 90 * 24 * 60 * 60 * 1000)
-          : new Date(Date.now() + 24 * 60 * 60 * 1000);
+          ? new Date(Date.now() + 90 * 24 * 60 * 60 * 1000) // 3 meses despues de hoy (90 días * 24 horas/día * 60 minutos/hora * 60 segundos/minuto * 1000 milisegundos/segundo)
+          : new Date(Date.now());
 
       setIntentosFallidos(nuevosIntentos);
       setFechaReintento(proximaFecha.toISOString());
       setEstadoPlatica(
         nuevosIntentos >= 3 ? "platica fallida" : "platica vigente"
       );
+
+      // Reinicia las preguntas con opciones revueltas
+      const preguntasReiniciadas = preguntas.map((pregunta) => ({
+        ...pregunta,
+        respuestas: pregunta.respuestas.sort(() => Math.random() - 0.5),
+      }));
+
+      setPreguntas(preguntasReiniciadas);
+      setRespuestas({});
 
       localStorage.setItem(
         "estadoPlatica",
@@ -116,6 +133,16 @@ const PlaticaServicio = ({ alumno }) => {
           proximaFecha: proximaFecha.toISOString(),
         })
       );
+
+      setNotificacion({
+        open: true,
+        message:
+          intentosRestantes > 0
+            ? `No aprobaste. Tu porcentaje fue del ${porcentajeCorrectas.toFixed(
+                2
+              )}%. Intentos restantes: ${intentosRestantes}.`
+            : `No aprobaste y has agotado tus intentos. Podrás reintentar después del ${proximaFecha.toLocaleDateString()}.`,
+      });
     }
   };
 

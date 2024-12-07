@@ -1,8 +1,5 @@
 FROM python:3
 
-# Exponer puerto 5432
-EXPOSE 5432
-
 # Crear directorio para los scripts SQL
 RUN mkdir -p /docker-entrypoint-initdb.d
 

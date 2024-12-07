@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "nombre_programa": "Programa de Apoyo Educativo",
+    "id_programa": 1,
+    "id_alumno": 1
+  },
+  {
+    "id": 2,
+    "nombre_programa": "Proyecto de Desarrollo Comunitario",
+    "id_programa": 2,
+    "id_alumno": 2
+  },
+  {
+    "id": 3,
+    "nombre_programa": "Programa de Apoyo Educativo",
+    "id_programa": 1,
+    "id_alumno": 3
+  },
+  {
+    "id": 4,
+    "nombre_programa": "Proyecto de Desarrollo Comunitario",
+    "id_programa": 2,
+    "id_alumno": 4
+  },
+  {
+    "id": 5,
+    "nombre_programa": "Programa de Apoyo Educativo",
+    "id_programa": 1,
+    "id_alumno": 5
+  },
+  {
+    "id": 6,
+    "nombre_programa": "Programa de Apoyo Educativo",
+    "id_programa": 1,
+    "id_alumno": 12345
+  }
+]

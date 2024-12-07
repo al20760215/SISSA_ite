@@ -16,7 +16,7 @@ import {
   Snackbar,
 } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
-import { programasDummy } from "../dashboardAlumno/dummyPrograms";
+import { programasDummy } from "../dashboardAdmin/dummyPrograms";
 
 const Alert = React.forwardRef((props, ref) => (
   <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />

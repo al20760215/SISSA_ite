@@ -20,7 +20,7 @@ import {
   Button,
 } from "@mui/material";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import ViewIcon from "@mui/icons-material/Pageview";
 import VoiceIcon from "@mui/icons-material/RecordVoiceOver";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotifIcon from "@mui/icons-material/Notifications";
@@ -30,10 +30,11 @@ import NoteIcon from "@mui/icons-material/NoteAlt";
 import WallpaperIcon from "@mui/icons-material/Wallpaper";
 import logoite from "../assets/itelogo.png";
 import { Link, useNavigate } from "react-router-dom";
-import ProgramasServicio from "../components/dashboardAdmin/Programas";
+import ProgramasServicio from "../components/dashboardAlumno/ProgramasServicio";
 import EstadoInicio from "../components/dashboardAlumno/EstadoInicio";
 import PlaticaServicio from "../components/dashboardAlumno/PlaticaServicio";
 import axios from "axios";
+import EstadoSolicitud from "../components/dashboardAlumno/EstadoSolicitud";
 const drawerWidth = 240;
 
 export default function ResponsiveDrawer(props) {
@@ -122,16 +123,6 @@ export default function ResponsiveDrawer(props) {
             <ListItemText primary={"Inicio"} />
           </ListItemButton>
         </ListItem>
-        <ListItem key="listaprogramas" disablePadding>
-          <ListItemButton
-            onClick={() => handleSectionChange("Lista de Programas")}
-          >
-            <ListItemIcon>
-              <BallotIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Lista de Programas"} />
-          </ListItemButton>
-        </ListItem>
         <ListItem key="platicaservicio" disablePadding>
           <ListItemButton
             onClick={() => handleSectionChange("Platica Servicio")}
@@ -142,12 +133,24 @@ export default function ResponsiveDrawer(props) {
             <ListItemText primary={"Platica del Servicio"} />
           </ListItemButton>
         </ListItem>
-        <ListItem key="notificaciones" disablePadding>
-          <ListItemButton onClick={() => handleSectionChange("Notificaciones")}>
+        <ListItem key="listaprogramas" disablePadding>
+          <ListItemButton
+            onClick={() => handleSectionChange("Lista de Programas")}
+          >
             <ListItemIcon>
-              <NotifIcon />
+              <BallotIcon />
             </ListItemIcon>
-            <ListItemText primary={"Notificaciones"} />
+            <ListItemText primary={"Lista de Programas"} />
+          </ListItemButton>
+        </ListItem>
+        <ListItem key="estadosolicitud" disablePadding>
+          <ListItemButton
+            onClick={() => handleSectionChange("Estado de Solicitud")}
+          >
+            <ListItemIcon>
+              <ViewIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Estado de Solicitud"} />
           </ListItemButton>
         </ListItem>
       </List>
@@ -203,13 +206,6 @@ export default function ResponsiveDrawer(props) {
               Contenido de Lista de Programas
             </Typography>
             <ProgramasServicio />
-            <Button
-              variant="contained"
-              sx={{ m: 2, color: "white", bgcolor: "green" }}
-              onClick={() => handleSolicitarClick()}
-            >
-              Solicitar programa
-            </Button>
           </Container>
         );
       case "Platica Servicio":
@@ -221,9 +217,11 @@ export default function ResponsiveDrawer(props) {
             <PlaticaServicio />
           </Container>
         );
-      case "Notificaciones":
+      case "Estado de Solicitud":
         return (
-          <Typography variant="h5">Contenido de Notificaciones</Typography>
+          <Container display="flex">
+            <EstadoSolicitud alumnoId={12345} />
+          </Container>
         );
       case "Firmar Documentos":
         return (

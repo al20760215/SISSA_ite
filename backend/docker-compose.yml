@@ -9,7 +9,7 @@ services:
     networks:
       - my-network
     ports:
-      - 80:80
+      - 8080:80
   flask:
     build:
       context: ./
@@ -44,8 +44,6 @@ services:
       POSTGRES_DB: sissa_postgres_db
     volumes:
       - ./scripts:/docker-entrypoint-initdb.d
-    ports: #pasar del puerto interno 5432 al 5432 de mi PC
-      - "5432:5432"
     networks:
       - my-network
 
