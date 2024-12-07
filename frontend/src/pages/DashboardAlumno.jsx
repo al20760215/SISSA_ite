@@ -35,6 +35,7 @@ import EstadoInicio from "../components/dashboardAlumno/EstadoInicio";
 import PlaticaServicio from "../components/dashboardAlumno/PlaticaServicio";
 import axios from "axios";
 import EstadoSolicitud from "../components/dashboardAlumno/EstadoSolicitud";
+import ReportesBimestrales from "../components/dashboardAlumno/ReportesBimestrales";
 const drawerWidth = 240;
 
 export default function ResponsiveDrawer(props) {
@@ -156,7 +157,7 @@ export default function ResponsiveDrawer(props) {
       </List>
       <Divider />
       <List>
-        <ListItem key="firmarDocs" disablePadding>
+        {/* <ListItem key="firmarDocs" disablePadding>
           <ListItemButton
             onClick={() => handleSectionChange("Firmar Documentos")}
           >
@@ -165,7 +166,7 @@ export default function ResponsiveDrawer(props) {
             </ListItemIcon>
             <ListItemText primary={"Firmar Documentos"} />
           </ListItemButton>
-        </ListItem>
+        </ListItem> */}
         <ListItem key="reportesBim" disablePadding>
           <ListItemButton
             onClick={() => handleSectionChange("Reportes Bimestrales")}
@@ -176,14 +177,14 @@ export default function ResponsiveDrawer(props) {
             <ListItemText primary={"Reportes bimestrales"} />
           </ListItemButton>
         </ListItem>
-        <ListItem key="evidencias" disablePadding>
+        {/* <ListItem key="evidencias" disablePadding>
           <ListItemButton onClick={() => handleSectionChange("Evidencias")}>
             <ListItemIcon>
               <WallpaperIcon />
             </ListItemIcon>
             <ListItemText primary={"Evidencias"} />
           </ListItemButton>
-        </ListItem>
+        </ListItem> */}
       </List>
     </div>
   );
@@ -229,9 +230,12 @@ export default function ResponsiveDrawer(props) {
         );
       case "Reportes Bimestrales":
         return (
-          <Typography variant="h5">
-            Contenido de Reportes Bimestrales
-          </Typography>
+          <Container display="flex">
+            <Typography variant="h5">
+              Contenido de Reportes Bimestrales
+            </Typography>
+            <ReportesBimestrales />
+          </Container>
         );
       case "Evidencias":
         return <Typography variant="h5">Contenido de Evidencias</Typography>;
