@@ -131,71 +131,123 @@ def get_db_connection():
 # Registrar usuarios con contraseña encriptada
 @app.route('/register', methods=['POST'])
 def register():
-    username = request.form['username']
-    first_name = request.form['first_name']
-    last_name = request.form['last_name']
-    email = request.form['email']
-    password = request.form['password']
-    device = request.form['device']
+    data = request.get_json()
+    usuario = data.get('usuario')
+    tipousuario = data.get('tipousuario')
+    contraseña = data.get('contraseña')
 
-    # Validar que todos los campos esten presentes
-    if not username or not first_name or not last_name or not email or not password or not device:
-        return {"error": "todos los campos deben estar estar presentes"}
+    # Validación de entrada
+    if not (usuario and tipousuario and contraseña):
+        return jsonify({"error": "Todos los campos son obligatorios"}), 400
 
-    # Verificar si el nombre de usuario o correo ya existen
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM users WHERE username = %s OR email = %s", (username, email))
-    user = cursor.fetchone()
-    cursor.close()
-    conn.close()
+    tipos_validos = ['alumno', 'maestro', 'encargado', 'sys']
+    if tipousuario not in tipos_validos:
+        return jsonify({"error": "Tipo de usuario no válido"}), 400
 
-    if user:
-        return {"error": "El nombre de usuario o email ya estan registrados."}
-
-    # Encriptar la contraseña
-    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-
-    # Insertar los datos del nuevo usuario en la base de datos
     try:
         conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute("""
-            INSERT INTO users (username, first_name, last_name, email, password, device)
-            VALUES (%s, %s, %s, %s, %s, %s)
-        """, (username, first_name, last_name, email, hashed_password.decode('utf-8'), device))
+        cur = conn.cursor()
+
+        # Verificar si el usuario ya existe
+        cur.execute("SELECT id FROM usuarios WHERE usuario = %s", (usuario,))
+        if cur.fetchone():
+            return jsonify({"error": "El nombre de usuario ya está registrado"}), 409
+
+        # Cifrar la contraseña
+        hashed_password = bcrypt.hashpw(contraseña.encode('utf-8'), bcrypt.gensalt())
+
+        # Insertar usuario en la base de datos
+        cur.execute("""
+            INSERT INTO usuarios (usuario, tipousuario, contraseña)
+            VALUES (%s, %s, %s)
+        """, (usuario, tipousuario, hashed_password))
         conn.commit()
-        cursor.close()
-        conn.close()
-        return {"message": "Usuario registrado exitosamente."}
+
+        return jsonify({"msg": "Usuario registrado exitosamente"}), 201
     except Exception as e:
-        return {f"Error al registrar el usuario: {str(e)}"}
+        return jsonify({"error": f"Error al registrar el usuario: {str(e)}"}), 500
+    finally:
+        cur.close()
+        conn.close()
 
 @app.route('/login', methods=['POST'])
 def login():
-    username = request.form.get('username')
-    password = request.form.get('password')
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT password FROM users WHERE username = %s", (username,))
-    user = cursor.fetchone()
-    cursor.close()
-    conn.close()
-    if not user:
-        return {"error": "Usuario no encontrado"}, 404
+    data = request.get_json()
+    usuario = data.get('usuario')
+    contraseña = data.get('contraseña')
 
-    if bcrypt.checkpw(password.encode('utf-8'), user[0].encode('utf-8')):
-        access_token = create_access_token(identity=username, expires_delta=timedelta(minutes=1))
-        refresh_token = create_refresh_token(identity=username, expires_delta=timedelta(days=30))
-        return jsonify(access_token=access_token, refresh_token=refresh_token), 200
-    else:
-        return {"error": "Contraseña incorrecta"}, 401
+    # Validar campos obligatorios
+    if not (usuario and contraseña):
+        return jsonify({"error": "Usuario y contraseña son obligatorios"}), 400
+
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+
+        # Buscar el usuario por nombre
+        cur.execute("SELECT contraseña FROM usuarios WHERE usuario = %s", (usuario,))
+        user = cur.fetchone()
+
+        if not user:
+            return jsonify({"error": "Usuario no encontrado"}), 404
+
+        # Validar contraseña
+        hashed_password = user[0]
+        
+        if isinstance(hashed_password, memoryview):
+            hashed_password = bytes(hashed_password)
+    
+        if bcrypt.checkpw(contraseña.encode('utf-8'), hashed_password):
+            # Generar tokens JWT
+            access_token = create_access_token(identity=usuario)
+            refresh_token = create_refresh_token(identity=usuario)
+            return jsonify({
+                "access_token": access_token,
+                "refresh_token": refresh_token
+            }), 200
+        else:
+            return jsonify({"error": "Contraseña incorrecta"}), 401
+    except Exception as e:
+        return jsonify({"error": f"Error del servidor: {str(e)}"}), 500
+    finally:
+        cur.close()
+        conn.close()
+
 
 @app.route('/protected', methods=['GET'])
 @jwt_required()
 def protected_route():
+    # Obtener el nombre de usuario desde el token JWT
     current_user = get_jwt_identity()
-    return f"Bienvenido, {current_user}"
+
+    # Conectar a la base de datos
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    try:
+        # Consultar la base de datos para obtener la información del usuario
+        cur.execute("SELECT id, usuario, tipousuario, fechacreacion, fechavencimiento FROM usuarios WHERE usuario = %s", (current_user,))
+        user = cur.fetchone()
+
+        if user:
+            # Devolver la información del usuario
+            user_info = {
+                "id": user[0],
+                "usuario": user[1],
+                "tipo_usuario": user[2],
+                "fecha_creacion": user[3],
+                "fecha_vencimiento": user[4]
+            }
+            return jsonify(user_info), 200
+        else:
+            return jsonify({"error": "Usuario no encontrado"}), 404
+
+    except Exception as e:
+        return jsonify({"error": f"Error al obtener la información del usuario: {str(e)}"}), 500
+    finally:
+        cur.close()
+        conn.close()
+
 
 @app.route('/refresh', methods=['POST'])
 @jwt_required(refresh=True)
