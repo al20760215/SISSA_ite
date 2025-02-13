@@ -94,8 +94,8 @@ const ReportesBimestrales = () => {
       return;
     }
 
-    if (archivo.size > 5 * 1024 * 1024) {
-      setErrorEvidencia("El archivo no debe exceder los 5MB.");
+    if (archivo.size > 25 * 1024 * 1024) {
+      setErrorEvidencia("El archivo no debe exceder los 25MB.");
       return;
     }
 

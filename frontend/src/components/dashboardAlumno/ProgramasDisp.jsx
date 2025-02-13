@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 
-export default function ProgramasServicio(props) {
+export default function ProgramasDisp(props) {
   const [programas, setProgramas] = useState([]);
   const [solicitudes, setSolicitudes] = useState([]);
   const [alumno, setAlumno] = useState({

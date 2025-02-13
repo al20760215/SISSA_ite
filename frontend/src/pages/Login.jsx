@@ -118,6 +118,13 @@ export default function HomePage() {
           >
             registrarse
           </Button>
+          <Button
+            onClick={() => navigate("/check")}
+            variant="outlined"
+            sx={{ mt: 2 }}
+          >
+            TestCheck
+          </Button>
         </CardContent>
       </Card>
     </Box>

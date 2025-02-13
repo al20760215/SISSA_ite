@@ -8,10 +8,10 @@ import {
   Typography,
   TextField,
   Button,
-  Grid,
   Checkbox,
   FormControlLabel,
 } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 import registerBg from "../assets/ensenada.jpg";
 
 export default function Register() {
@@ -138,7 +138,7 @@ export default function Register() {
               { label: "Dirección", name: "direccion", optional: true },
               { label: "Correo Electrónico", name: "correo" },
             ].map(({ label, name, type = "text", optional }) => (
-              <Grid item xs={12} sm={6} key={name}>
+              <Grid xs={12} sm={6} key={name}>
                 <TextField
                   fullWidth
                   variant="outlined"
@@ -152,7 +152,7 @@ export default function Register() {
                 />
               </Grid>
             ))}
-            <Grid item xs={12}>
+            <Grid xs={12}>
               <FormControlLabel
                 control={
                   <Checkbox

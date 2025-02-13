@@ -5,7 +5,6 @@ import {
   Checkbox,
   FormControl,
   FormHelperText,
-  Grid,
   InputLabel,
   List,
   ListItem,
@@ -15,7 +14,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-
+import Grid from "@mui/material/Grid2";
 const ReporteFinal = () => {
   // Estado inicial del componente
   const [datosAlumno, setDatosAlumno] = useState({
@@ -191,9 +190,9 @@ const ReporteFinal = () => {
       {/* Evidencias */}
       <Box sx={{ mb: 4 }}>
         <Typography variant="h6">Evidencias</Typography>
-        <Grid container spacing={2}>
-          {Array.from({ length: 6 }).map((_, index) => (
-            <Grid item xs={4} key={index}>
+        <Grid container spacing={2} columns={12}>
+          {Array.from({ length: 9 }).map((_, index) => (
+            <Grid key={index} size={{ sm: 12, md: 6, lg: 4 }}>
               <Box
                 component="img"
                 src={`/src/assets/testevidencias/evidencia${index + 1}.jpg`}
