@@ -14,6 +14,7 @@ import {
   IconButton,
   useMediaQuery,
   Container,
+  Button,
 } from "@mui/material";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
@@ -25,10 +26,13 @@ import FaceIcon from "@mui/icons-material/Face";
 import ArticleIcon from "@mui/icons-material/Article";
 import { useState } from "react";
 import ProgramasServicio from "../components/dashboardAdmin/Programas";
+import Inicio from "../components/dashboardAdmin/Inicio";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
 export default function ClippedDrawer() {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   const [activeSection, setActiveSection] = useState(""); // Estado para la seccion activa
@@ -44,7 +48,7 @@ export default function ClippedDrawer() {
   const renderContent = () => {
     switch (activeSection) {
       case "Inicio":
-        return <Typography variant="h5">Contenido de Inicio</Typography>;
+        return <Inicio />;
       case "Lista de Programas":
         return (
           <Container display="flex">
@@ -129,6 +133,22 @@ export default function ClippedDrawer() {
           <Typography variant="h6" noWrap component="div">
             SISSA Admin
           </Typography>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => navigate("/alumno/dashboard")}
+            sx={{ marginLeft: 2 }}
+          >
+            Dashboard Alumno
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => navigate("/admin/dashboard")}
+            sx={{ marginLeft: 2 }}
+          >
+            Dashboard Admin
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer

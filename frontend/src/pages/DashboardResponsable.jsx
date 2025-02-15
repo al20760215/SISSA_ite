@@ -30,14 +30,15 @@ import NoteIcon from "@mui/icons-material/NoteAlt";
 import WallpaperIcon from "@mui/icons-material/Wallpaper";
 import logoite from "../assets/itelogo.png";
 import { Link, useNavigate } from "react-router-dom";
-import ProgramasDisp from "../components/dashboardAlumno/ProgramasDisp";
-import Inicio from "../components/dashboardAlumno/Inicio";
-import PlaticaServicio from "../components/dashboardAlumno/PlaticaServicio";
+import Inicio from "../components/dashboardResponsable/Inicio";
+import Solicitudes from "../components/dashboardResponsable/Solicitudes";
 import axios from "axios";
 import EstadoSolicitud from "../components/dashboardAlumno/EstadoSolicitud";
 import ReportesBimestrales from "../components/dashboardAlumno/ReportesBimestrales";
 import ReporteFinal from "../components/dashboardAlumno/ReporteFinal";
 import TerminacionServicio from "../components/dashboardAlumno/TerminacionServicio";
+import NotifResponsable from "../components/dashboardResponsable/NotifResponsable";
+import DocumentTests from "../components/dashboardResponsable/DocumentTests";
 const drawerWidth = 240;
 
 export default function ResponsiveDrawer(props) {
@@ -107,13 +108,14 @@ export default function ResponsiveDrawer(props) {
   };
 
   const drawer = (
-    <div>
+    <Box sx={{ display: "auto", bgcolor: "#e8edff" }}>
       {/* <Box
         component={Link}
         to="/alumno/dashboard"
         underline="none"
         sx={{ display: "flex", alignItems: "center", mb: 2, p: 2 }}
       > */}
+
       <Box
         onClick={() => handleSectionChange("Inicio")}
         underline="none"
@@ -143,68 +145,35 @@ export default function ResponsiveDrawer(props) {
             <ListItemText primary={"Inicio"} />
           </ListItemButton>
         </ListItem>
-        <ListItem key="platicaservicio" disablePadding>
-          <ListItemButton
-            onClick={() => handleSectionChange("Platica Servicio")}
-          >
+        <ListItem key="notificaciones" disablePadding>
+          <ListItemButton onClick={() => handleSectionChange("Notificaciones")}>
             <ListItemIcon>
               <VoiceIcon />
             </ListItemIcon>
-            <ListItemText primary={"Platica del Servicio"} />
+            <ListItemText primary={"Notificaciones"} />
           </ListItemButton>
         </ListItem>
-        <ListItem key="listaprogramas" disablePadding>
-          <ListItemButton
-            onClick={() => handleSectionChange("Lista de Programas")}
-          >
+        <ListItem key="solicitudes" disablePadding>
+          <ListItemButton onClick={() => handleSectionChange("Solicitudes")}>
             <ListItemIcon>
               <BallotIcon />
             </ListItemIcon>
-            <ListItemText primary={"Lista de Programas"} />
+            <ListItemText primary={"Solicitudes y Programas"} />
           </ListItemButton>
         </ListItem>
-        <ListItem key="estadosolicitud" disablePadding>
+        <ListItem key="documentos" disablePadding>
           <ListItemButton
-            onClick={() => handleSectionChange("Estado de Solicitud")}
+            onClick={() => handleSectionChange("Revision documentos")}
           >
             <ListItemIcon>
               <ViewIcon />
             </ListItemIcon>
-            <ListItemText primary={"Estado de Solicitud"} />
+            <ListItemText primary={"Revision de documentos"} />
           </ListItemButton>
         </ListItem>
       </List>
       <Divider />
       <List>
-        <ListItem key="reportesbimestrales" disablePadding>
-          <ListItemButton
-            onClick={() => handleSectionChange("Reportes Bimestrales")}
-          >
-            <ListItemIcon>
-              <NoteIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Reportes bimestrales"} />
-          </ListItemButton>
-        </ListItem>
-        <ListItem key="reportefinal" disablePadding>
-          <ListItemButton onClick={() => handleSectionChange("Reporte Final")}>
-            <ListItemIcon>
-              <NoteIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Reporte final"} />
-          </ListItemButton>
-        </ListItem>
-        <Divider />
-        <ListItem key="terminacionservicio" disablePadding>
-          <ListItemButton
-            onClick={() => handleSectionChange("Terminacion del Servicio")}
-          >
-            <ListItemIcon>
-              <SignIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Terminacion del Servicio"} />
-          </ListItemButton>
-        </ListItem>
         {/* <ListItem key="evidencias" disablePadding>
           <ListItemButton onClick={() => handleSectionChange("Evidencias")}>
             <ListItemIcon>
@@ -214,7 +183,7 @@ export default function ResponsiveDrawer(props) {
           </ListItemButton>
         </ListItem> */}
       </List>
-    </div>
+    </Box>
   );
 
   const renderContent = () => {
@@ -228,28 +197,25 @@ export default function ResponsiveDrawer(props) {
             <Inicio usuario handleSectionChange={handleSectionChange} />
           </>
         );
-      case "Lista de Programas":
+      case "Notificaciones":
+        return (
+          <Container display="flex">
+            <NotifResponsable />
+          </Container>
+        );
+      case "Solicitudes":
         return (
           <Container display="flex">
             <Typography variant="h5" sx={{ mb: 2 }}>
-              Contenido de Lista de Programas
+              Solicitudes
             </Typography>
-            <ProgramasDisp />
+            <Solicitudes />
           </Container>
         );
-      case "Platica Servicio":
+      case "Revision documentos":
         return (
           <Container display="flex">
-            <Typography variant="h5" sx={{ mb: 2 }}>
-              Platica del servicio social
-            </Typography>
-            <PlaticaServicio />
-          </Container>
-        );
-      case "Estado de Solicitud":
-        return (
-          <Container display="flex">
-            <EstadoSolicitud alumnoId={12345} />
+            <DocumentTests />
           </Container>
         );
       case "Terminacion del Servicio":
@@ -258,13 +224,11 @@ export default function ResponsiveDrawer(props) {
         return <ReportesBimestrales />;
       case "Reporte Final":
         return <ReporteFinal />;
-      case "Evidencias":
-        return <Typography variant="h5">Contenido de Evidencias</Typography>;
       default:
         return (
           <>
             <Typography variant="h3" sx={{ marginBottom: 2 }}>
-              ¡Bienvenidos estudiantes!
+              Panel para Responsables de Programa del Servicio Social
             </Typography>
             <Typography sx={{ marginBottom: 2 }}>Parrafo 1</Typography>
             <Typography sx={{ marginBottom: 2 }}>Parrafo 2</Typography>
@@ -278,6 +242,7 @@ export default function ResponsiveDrawer(props) {
       <CssBaseline />
       <AppBar
         position="fixed"
+        color="secondary"
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
@@ -295,15 +260,15 @@ export default function ResponsiveDrawer(props) {
           </IconButton>
           <Button
             variant="contained"
-            color="secondary"
-            onClick={() => navigate("/responsable/dashboard")}
+            color="primary"
+            onClick={() => navigate("/alumno/dashboard")}
             sx={{ marginRight: 2 }}
           >
-            Dashboard Responsable
+            Dashboard Alumno
           </Button>
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             onClick={() => navigate("/admin/dashboard")}
             sx={{ marginRight: 2 }}
           >
