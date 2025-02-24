@@ -1,0 +1,99 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+}
+
+.parent {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas de igual tamaño */
+    grid-auto-rows: min-content; /* Las filas se ajustan al contenido */
+    /*gap: 8px;  Espacio entre celdas */
+    width: 216mm; /* Ancho de una hoja carta */
+    height: 279mm; /* Ajusta la altura automáticamente */
+    max-height: 279mm; /* Máximo el alto de una hoja carta */
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px 40px;
+   /* margin: 0 300px;*/
+   
+}
+
+
+.div1 {
+    grid-column: span 3; /* Ocupa 3 columnas */
+    text-align: center; /* Centra el contenido horizontalmente */
+    height: auto /* Alto fijo para el contenedor */
+}
+
+.div1 img {
+    max-width: 100%; /* Ajusta la imagen al ancho del contenedor */
+    height: auto; /* Mantiene la proporción de la imagen */
+}
+
+.subtop {
+    grid-column: span 3; /* Columna 3 */
+    grid-row: 2; /* Fila 2 */
+    font-family: "Montserrat", serif; /* Fuente Arial */
+    font-size: 12px; /* Tamaño de fuente 12pt */
+    font-weight: bold;
+    color:rgb(136, 136, 136);
+    text-align: right; /* Justifica el texto */
+    line-height: .09; /* Espaciado de línea de 1.15 */
+    margin: 0; /* Elimina cualquier margen extra si es necesario */
+    margin-top: -9px;
+}
+
+.titulo {
+    grid-column: span 3; /* Ocupa 2 columnas */
+    grid-row: 3; /* Fila 2 */
+    font-family: "Arial", serif; /* Fuente Arial */
+    font-size: 16px; /* Tamaño de fuente 12pt */
+    font-weight: bold;
+    text-align: center; /* Justifica el texto */
+    line-height: .5; /* Espaciado de línea de 1.15 */
+    margin: 0; /* Elimina cualquier margen extra si es necesario */
+}
+
+.Forma, .Texto {
+    grid-column: span 3;
+    font-family: "Arial", serif;
+    font-size: 16px;
+    text-align: justify;
+    text-indent: 2em;
+    line-height: 1;
+    margin: 0;
+    padding: 2px 10px; /* Reduce espacio interno */
+}
+
+.Firma {
+    grid-column: span 3; 
+    grid-row: 6; /* Fila 5 */
+    font-family: "Arial", serif; /* Fuente Arial */
+    font-size: 10pt; /* Tamaño de fuente 12pt */
+    font-weight: bold;
+    text-align: center; /* Justifica el texto */
+    line-height: .5; /* Espaciado de línea de 1.15 */
+    margin: 40px; /* Elimina cualquier margen extra si es necesario */
+}
+
+.Firma hr {
+    width: 50%;  /* Ajusta el ancho al 50% del contenedor */
+    border: 2px solid black;  /* Hace el hr más grueso y de color negro */
+    margin: 10px auto;  /* Centra horizontalmente y agrega un poco de espacio arriba/abajo */
+}
+
+.Footer {
+    grid-column: span 3; /* Columna 3 */
+    grid-row: 7; /* Fila 6 */
+    height: auto /* Alto fijo para el contenedor */
+}
+
+.Footer img {
+    max-width: 100%; /* Ajusta la imagen al ancho del contenedor */
+    height: auto; /* Mantiene la proporción de la imagen */
+}
+
