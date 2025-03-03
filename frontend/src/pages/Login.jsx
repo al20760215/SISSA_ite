@@ -119,7 +119,7 @@ export default function HomePage() {
             registrarse
           </Button>
           <Button
-            onClick={() => navigate("/check")}
+            onClick={() => navigate("/dataUpdate")}
             variant="outlined"
             sx={{ mt: 2 }}
           >

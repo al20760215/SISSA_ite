@@ -19,6 +19,8 @@ import {
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
+import FileIcon from "@mui/icons-material/FileOpen";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import NotifIcon from "@mui/icons-material/Notifications";
 import BallotIcon from "@mui/icons-material/Ballot";
 import SchoolIcon from "@mui/icons-material/School";
@@ -28,6 +30,8 @@ import { useState } from "react";
 import ProgramasServicio from "../components/dashboardAdmin/Programas";
 import Inicio from "../components/dashboardAdmin/Inicio";
 import { useNavigate } from "react-router-dom";
+import Notificaciones from "../components/dashboardAdmin/Notificaciones";
+import Documentos from "../components/dashboardAdmin/Documentos";
 
 const drawerWidth = 240;
 
@@ -61,13 +65,13 @@ export default function ClippedDrawer() {
       case "Solicitudes":
         return <Typography variant="h5">Contenido de Solicitudes</Typography>;
       case "Notificaciones":
-        return (
-          <Typography variant="h5">Contenido de Notificaciones</Typography>
-        );
+        return <Notificaciones handleSectionChange={handleSectionChange} />;
+      case "Documentos":
+        return <Documentos />;
       case "Alumnos":
         return <Typography variant="h5">Lista de Alumnos</Typography>;
-      case "Tutores":
-        return <Typography variant="h5">Lista de Tutores</Typography>;
+      case "Responsables":
+        return <Typography variant="h5">Lista de Responsables</Typography>;
       case "Logs":
         return <Typography variant="h5">Contenido de Logs</Typography>;
       default:
@@ -136,18 +140,18 @@ export default function ClippedDrawer() {
           <Button
             variant="contained"
             color="secondary"
-            onClick={() => navigate("/alumno/dashboard")}
+            onClick={() => navigate("/responsable/dashboard")}
             sx={{ marginLeft: 2 }}
           >
-            Dashboard Alumno
+            Dashboard Responsable
           </Button>
           <Button
             variant="contained"
             color="secondary"
-            onClick={() => navigate("/admin/dashboard")}
+            onClick={() => navigate("/alumno/dashboard")}
             sx={{ marginLeft: 2 }}
           >
-            Dashboard Admin
+            Dashboard Alumno
           </Button>
         </Toolbar>
       </AppBar>
@@ -175,6 +179,24 @@ export default function ClippedDrawer() {
                 <ListItemText primary={"Inicio"} />
               </ListItemButton>
             </ListItem>
+            <ListItem key="notificaciones" disablePadding>
+              <ListItemButton
+                onClick={() => handleSectionChange("Notificaciones")}
+              >
+                <ListItemIcon>
+                  <NotifIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Notificaciones"} />
+              </ListItemButton>
+            </ListItem>
+            <ListItem key="documentos" disablePadding>
+              <ListItemButton onClick={() => handleSectionChange("Documentos")}>
+                <ListItemIcon>
+                  <FileIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Documentos"} />
+              </ListItemButton>
+            </ListItem>
             <ListItem key="listaprogramas" disablePadding>
               <ListItemButton
                 onClick={() => handleSectionChange("Lista de Programas")}
@@ -185,24 +207,13 @@ export default function ClippedDrawer() {
                 <ListItemText primary={"Programas"} />
               </ListItemButton>
             </ListItem>
-            <ListItem key="solicitudes" disablePadding>
-              <ListItemButton
-                onClick={() => handleSectionChange("Solicitudes")}
-              >
+            <Divider />
+            <ListItem key="altas" disablePadding>
+              <ListItemButton onClick={() => handleSectionChange("Altas")}>
                 <ListItemIcon>
-                  <MailIcon />
+                  <GroupAddIcon />
                 </ListItemIcon>
-                <ListItemText primary={"Solicitudes"} />
-              </ListItemButton>
-            </ListItem>
-            <ListItem key="notificaciones" disablePadding>
-              <ListItemButton
-                onClick={() => handleSectionChange("Notificaciones")}
-              >
-                <ListItemIcon>
-                  <NotifIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Notificaciones"} />
+                <ListItemText primary={"Altas de Usuarios"} />
               </ListItemButton>
             </ListItem>
           </List>
@@ -216,12 +227,14 @@ export default function ClippedDrawer() {
                 <ListItemText primary={"Alumnos"} />
               </ListItemButton>
             </ListItem>
-            <ListItem key="tutores" disablePadding>
-              <ListItemButton onClick={() => handleSectionChange("Tutores")}>
+            <ListItem key="responsables" disablePadding>
+              <ListItemButton
+                onClick={() => handleSectionChange("Responsables")}
+              >
                 <ListItemIcon>
                   <SchoolIcon />
                 </ListItemIcon>
-                <ListItemText primary={"Tutores"} />
+                <ListItemText primary={"Responsables"} />
               </ListItemButton>
             </ListItem>
             <ListItem key="logs" disablePadding>

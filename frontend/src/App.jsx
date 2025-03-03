@@ -8,7 +8,7 @@ import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
 import Dashboard from "./pages/DashboardAdmin.jsx";
 import DashboardAlumno from "./pages/DashboardAlumno.jsx";
 import DashboardResponsable from "./pages/DashboardResponsable.jsx";
-import DataCheck from "./pages/DataCheck.jsx";
+import DataUpdate from "./pages/DataUpdate.jsx";
 /* roles
  admin, user (alumno), responsable de proyecto (tutor)
 */
@@ -20,7 +20,7 @@ function App() {
           <Route path="/" element={<HomeAbout />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/check" element={<DataCheck />} />
+          <Route path="/dataUpdate" element={<DataUpdate />} />
 
           <Route path="/alumno">
             <Route path="dashboard" element={<DashboardAlumno />} />

@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-export default function DataCheck() {
+export default function DataUpdate() {
   const navigate = useNavigate();
 
   // Estados para cargar la información del usuario/alumno y controlar la UI
