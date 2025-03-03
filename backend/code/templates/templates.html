@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+        
+        .parent {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 columnas de igual tamaño */
+            grid-auto-rows: min-content; /* Las filas se ajustan al contenido */
+            /*gap: 8px;  Espacio entre celdas */
+            width: 216mm; /* Ancho de una hoja carta */
+            height: 279mm; /* Ajusta la altura automáticamente */
+            max-height: 279mm; /* Máximo el alto de una hoja carta */
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px 40px;
+           /* margin: 0 300px;*/
+           
+        }
+        
+        
+        .div1 {
+            grid-column: span 3; /* Ocupa 3 columnas */
+            text-align: center; /* Centra el contenido horizontalmente */
+            height: auto /* Alto fijo para el contenedor */
+        }
+        
+        .div1 img {
+            max-width: 100%; /* Ajusta la imagen al ancho del contenedor */
+            height: auto; /* Mantiene la proporción de la imagen */
+        }
+        
+        .subtop {
+            grid-column: span 3; /* Columna 3 */
+            grid-row: 2; /* Fila 2 */
+            font-family: "Montserrat", serif; /* Fuente Arial */
+            font-size: 12px; /* Tamaño de fuente 12pt */
+            font-weight: bold;
+            color:rgb(136, 136, 136);
+            text-align: right; /* Justifica el texto */
+            line-height: .09; /* Espaciado de línea de 1.15 */
+            margin: 0; /* Elimina cualquier margen extra si es necesario */
+            margin-top: -9px;
+        }
+        
+        .titulo {
+            grid-column: span 3; /* Ocupa 2 columnas */
+            grid-row: 3; /* Fila 2 */
+            font-family: "Arial", serif; /* Fuente Arial */
+            font-size: 16px; /* Tamaño de fuente 12pt */
+            font-weight: bold;
+            text-align: center; /* Justifica el texto */
+            line-height: .5; /* Espaciado de línea de 1.15 */
+            margin: 0; /* Elimina cualquier margen extra si es necesario */
+        }
+        
+        .Forma, .Texto {
+            grid-column: span 3;
+            font-family: "Arial", serif;
+            font-size: 16px;
+            text-align: justify;
+            text-indent: 2em;
+            line-height: 1;
+            margin: 0;
+            padding: 2px 10px; /* Reduce espacio interno */
+        }
+        
+        .Firma {
+            grid-column: span 3; 
+            grid-row: 6; /* Fila 5 */
+            font-family: "Arial", serif; /* Fuente Arial */
+            font-size: 10pt; /* Tamaño de fuente 12pt */
+            font-weight: bold;
+            text-align: center; /* Justifica el texto */
+            line-height: .5; /* Espaciado de línea de 1.15 */
+            margin: 40px; /* Elimina cualquier margen extra si es necesario */
+        }
+        
+        .Firma hr {
+            width: 50%;  /* Ajusta el ancho al 50% del contenedor */
+            border: 2px solid black;  /* Hace el hr más grueso y de color negro */
+            margin: 10px auto;  /* Centra horizontalmente y agrega un poco de espacio arriba/abajo */
+        }
+        
+        .Footer {
+            grid-column: span 3; /* Columna 3 */
+            grid-row: 7; /* Fila 6 */
+            height: auto /* Alto fijo para el contenedor */
+        }
+        
+        .Footer img {
+            max-width: 100%; /* Ajusta la imagen al ancho del contenedor */
+            height: auto; /* Mantiene la proporción de la imagen */
+        }
+        
+            
+    
+    </style>
+
+</head>
+
+<body>
+    <div class="parent">
+        <div class="div1">
+            <img src="{{ request.url_root }}IMG/Logofull.png" alt="Logo">
+            <!-- Asegúrate de que la ruta sea correcta -->
+        </div>
+
+        <div class="subtop">
+            <p>Instituto Tecnológico de Ensenada</p>
+            <p> Departamento de Gestión Tecnológica y Vinculación</p>
+        </div>
+
+        <div class="titulo">
+        <p>ANEXO XX. CARTA COMPROMISO DE SERVICIO SOCIAL</p>
+        <br>
+
+        <p>Departamento de Gestión Tecnológica y Vinculación o su equivalente en</p>
+        <p> los Institutos Tecnológicos Descentralizados</p>
+        <p>Carta compromiso de Servicio Social</p>
+
+        </div>
+        <div class="Forma">
+            <p> Con el fin de dar cumplimiento con lo establecido en la Ley Reglamentaria del Artículo 5° Constitucional relativo al ejercicio de profesiones, el suscrito:</p>
+            <p>Nombre del prestante del Servicio Social: {{ Students.FirstName }} {{ Students.LastName1 }} {{ Students.LastName2 }}</p>
+            <p>Número de control: {{ Students.ControlNumber }}  Domicilio: {{ Students.Address }} </p>
+            <p>Teléfono: {{ Students.Phone }} 	Carrera: 	{{ Students.Specialty }} 	Semestre {{ Students.Semester }} 	. </p>
+            <p>Dependencia u organismo: {{ Organizations.OrganizationName }} </p>
+            <p>Domicilio de la dependencia: {{ Organizations.Address }} </p>
+            <p>Responsable del programa: {{ Organizations.SupervisorFirstName }} {{ Organizations.SupervisorLastName1 }} {{ Organizations.SupervisorLastName2 }}</p>
+            <p>Fecha de inicio: {{ StudentProgramHistory.StartDate }}  Fecha de terminación: {{ StudentProgramHistory.EndDate }} </p>
+        </div>
+    
+    
+            <div class="Texto">
+                <p>Me comprometo a realizar el Servicio Social acatando el reglamento emitido por el Tecnológico Nacional de México y llevarlo a cabo en el lugar y periodos manifestados, así como, a participar con mis conocimientos e iniciativa en las actividades que desempeñe, procurando dar una imagen positiva del Instituto en el Organismo o Dependencia oficial, de no hacerlo así, quedo enterado(a) de la cancelación respectiva, la cual procederá automáticamente.</p>
+                <p>En la Ciudad de: Ensenada, del día {{ fecha_actual.day }} del mes {{ fecha_actual.strftime('%B') }} de {{ fecha_actual.year }}.</p>
+
+            </div>
+    
+        <div class="Firma">
+            <p>CONFORMIDAD</p>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+<hr>
+            <p>Firma del alumno(a) del Servicio Social</p>
+        </div>
+        <div class="Footer">
+            <img src="{{ request.url_root }}IMG/footer.png" alt="Footer">
+
+ <!-- Asegúrate de que la ruta sea correcta -->
+
+
+        </div>
+ 
+    </div>
+</body>
+</html>
