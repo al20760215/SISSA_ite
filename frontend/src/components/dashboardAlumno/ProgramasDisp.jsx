@@ -48,7 +48,7 @@ const ProgramasDisp = () => {
 
   useEffect(() => {
     // Se obtiene el archivo JSON desde la carpeta public
-    fetch("/src/components/dashboardAdmin/ProgramasVSS_Ene2025_test.json")
+    fetch("/src/components/dashboardAlumno/ProgramasVSS_Ene2025_test.json")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Error al obtener los programas");

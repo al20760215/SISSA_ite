@@ -239,7 +239,7 @@ export default function ResponsiveDrawer(props) {
       case "Estado de Solicitud":
         return (
           <Container display="flex">
-            <EstadoSolicitud alumnoId={12345} />
+            <EstadoSolicitud />
           </Container>
         );
       case "Terminacion del Servicio":
