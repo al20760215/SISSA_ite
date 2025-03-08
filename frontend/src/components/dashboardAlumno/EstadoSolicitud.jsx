@@ -9,54 +9,54 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Chip,
 } from "@mui/material";
+import dummySolicitudes from "./dummySolicitudes.json";
 
-const EstadoSolicitud = ({ alumnoId }) => {
+const getStatusColor = (estado) => {
+  switch (estado) {
+    case "aprobada":
+      return "success";
+    case "rechazada":
+      return "error";
+    case "enviada":
+      return "warning";
+    case "baja":
+      return "default";
+    default:
+      return "primary";
+  }
+};
+
+const EstadoSolicitud = () => {
   const [solicitudes, setSolicitudes] = useState([]);
-  const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
-    // Carga las solicitudes desde el archivo JSON
-    const fetchSolicitudes = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/solicitudes");
-        const data = await response.json();
-        // Filtra las solicitudes por el ID del alumno
-        const solicitudesFiltradas = data.filter(
-          (solicitud) => solicitud.id_alumno === alumnoId
-        );
-        setSolicitudes(solicitudesFiltradas);
-      } catch (error) {
-        console.error("Error al cargar las solicitudes:", error);
-        setSolicitudes([]);
-      } finally {
-        setCargando(false);
-      }
-    };
-
-    fetchSolicitudes();
-  }, [alumnoId]);
+    setSolicitudes(dummySolicitudes);
+  }, []);
 
   return (
-    <Box>
+    <Box sx={{ p: 3 }}>
       <Typography variant="h5" gutterBottom>
-        Estado de Solicitud
+        Estado de Solicitudes
       </Typography>
-      {cargando ? (
-        <Typography variant="body1">Cargando solicitudes...</Typography>
-      ) : solicitudes.length === 0 ? (
-        <Typography variant="body1" color="text.secondary">
-          No has realizado ninguna solicitud
-        </Typography>
-      ) : (
+      {solicitudes.length > 0 ? (
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Fecha de solicitud</TableCell>
-                <TableCell>ID solicitud</TableCell>
-                <TableCell>Nombre del programa</TableCell>
-                <TableCell>Estado de la solicitud</TableCell>
+                <TableCell>
+                  <strong>Fecha de Solicitud</strong>
+                </TableCell>
+                <TableCell>
+                  <strong>ID Solicitud</strong>
+                </TableCell>
+                <TableCell>
+                  <strong>Programa</strong>
+                </TableCell>
+                <TableCell>
+                  <strong>Estado</strong>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -64,13 +64,22 @@ const EstadoSolicitud = ({ alumnoId }) => {
                 <TableRow key={solicitud.id}>
                   <TableCell>{solicitud.fecha}</TableCell>
                   <TableCell>{solicitud.id}</TableCell>
-                  <TableCell>{solicitud.nombre_programa}</TableCell>
-                  <TableCell>{solicitud.estado}</TableCell>
+                  <TableCell>{solicitud.programa}</TableCell>
+                  <TableCell>
+                    <Chip
+                      label={solicitud.estado}
+                      color={getStatusColor(solicitud.estado)}
+                    />
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
+      ) : (
+        <Typography variant="body1" color="textSecondary" sx={{ mt: 2 }}>
+          No has realizado ninguna solicitud.
+        </Typography>
       )}
     </Box>
   );

@@ -1,0 +1,44 @@
+[
+  {
+    "fecha": "2025-03-01",
+    "id": "SOL-001",
+    "programa": "Apoyo a Comunidades",
+    "estado": "aprobada"
+  },
+  {
+    "fecha": "2025-02-20",
+    "id": "SOL-002",
+    "programa": "Educación Infantil",
+    "estado": "rechazada"
+  },
+  {
+    "fecha": "2025-02-18",
+    "id": "SOL-003",
+    "programa": "Medio Ambiente",
+    "estado": "rechazada"
+  },
+  {
+    "fecha": "2025-02-15",
+    "id": "SOL-004",
+    "programa": "Desarrollo Tecnológico",
+    "estado": "rechazada"
+  },
+  {
+    "fecha": "2025-02-10",
+    "id": "SOL-005",
+    "programa": "Atención a Adultos Mayores",
+    "estado": "enviada"
+  },
+  {
+    "fecha": "2025-01-25",
+    "id": "SOL-006",
+    "programa": "Salud Comunitaria",
+    "estado": "baja"
+  },
+  {
+    "fecha": "2025-01-15",
+    "id": "SOL-007",
+    "programa": "Cultura y Arte",
+    "estado": "baja"
+  }
+]

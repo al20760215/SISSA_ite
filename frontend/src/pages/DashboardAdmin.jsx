@@ -25,13 +25,15 @@ import NotifIcon from "@mui/icons-material/Notifications";
 import BallotIcon from "@mui/icons-material/Ballot";
 import SchoolIcon from "@mui/icons-material/School";
 import FaceIcon from "@mui/icons-material/Face";
-import ArticleIcon from "@mui/icons-material/Article";
 import { useState } from "react";
 import ProgramasServicio from "../components/dashboardAdmin/Programas";
 import Inicio from "../components/dashboardAdmin/Inicio";
 import { useNavigate } from "react-router-dom";
 import Notificaciones from "../components/dashboardAdmin/Notificaciones";
 import Documentos from "../components/dashboardAdmin/Documentos";
+import Altas from "../components/dashboardAdmin/Altas";
+import Alumnos from "../components/dashboardAdmin/Alumnos";
+import Responsables from "../components/dashboardAdmin/Responsables";
 
 const drawerWidth = 240;
 
@@ -69,11 +71,11 @@ export default function ClippedDrawer() {
       case "Documentos":
         return <Documentos />;
       case "Alumnos":
-        return <Typography variant="h5">Lista de Alumnos</Typography>;
+        return <Alumnos />;
       case "Responsables":
-        return <Typography variant="h5">Lista de Responsables</Typography>;
-      case "Logs":
-        return <Typography variant="h5">Contenido de Logs</Typography>;
+        return <Responsables />;
+      case "Altas":
+        return <Altas />;
       default:
         return (
           <>
@@ -224,7 +226,7 @@ export default function ClippedDrawer() {
                 <ListItemIcon>
                   <FaceIcon />
                 </ListItemIcon>
-                <ListItemText primary={"Alumnos"} />
+                <ListItemText primary={"Seguimiento de Alumnos"} />
               </ListItemButton>
             </ListItem>
             <ListItem key="responsables" disablePadding>
@@ -234,15 +236,7 @@ export default function ClippedDrawer() {
                 <ListItemIcon>
                   <SchoolIcon />
                 </ListItemIcon>
-                <ListItemText primary={"Responsables"} />
-              </ListItemButton>
-            </ListItem>
-            <ListItem key="logs" disablePadding>
-              <ListItemButton onClick={() => handleSectionChange("Logs")}>
-                <ListItemIcon>
-                  <ArticleIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Logs"} />
+                <ListItemText primary={"Seguimiento de Responsables"} />
               </ListItemButton>
             </ListItem>
           </List>

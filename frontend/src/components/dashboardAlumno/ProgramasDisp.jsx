@@ -4,335 +4,275 @@ import {
   Typography,
   List,
   ListItem,
-  ListItemText,
+  ListItemButton,
   Card,
   CardContent,
-  CardActions,
   Button,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
+  Grid,
+  Alert,
 } from "@mui/material";
-import axios from "axios";
 
-export default function ProgramasDisp(props) {
-  const [programas, setProgramas] = useState([]);
-  const [solicitudes, setSolicitudes] = useState([]);
-  const [alumno, setAlumno] = useState({
-    id: 12345,
-    nombre: "Juan Pérez",
-    carrera: "Ingeniería en Sistemas",
-  });
-  const [estadoSolicitud, setEstadoSolicitud] = useState("Cargando...");
-  const [programaSeleccionado, setProgramaSeleccionado] = useState(null);
-  const [dialogoAbierto, setDialogoAbierto] = useState(false);
-  const [botonDeshabilitado, setBotonDeshabilitado] = useState(false);
+// Datos simulados del alumno (posteriormente se obtendrán de una API)
+const student = {
+  id: "123456",
+  nombre: "Juan",
+  apellidos: "Pérez",
+  carrera: "Ing. Sistemas Computacionales",
+  semestre: 5,
+  creditos: 80,
+  isInscrito: true,
+  answeredQuestionnaire: true,
+};
+
+// Validación de requisitos: inscrito, 70 o más créditos y cuestionario contestado
+const checkEligibility = (student) =>
+  student.isInscrito && student.creditos >= 70 && student.answeredQuestionnaire;
+
+const ProgramasDisp = () => {
+  const [programs, setPrograms] = useState([]);
+  const [selectedProgram, setSelectedProgram] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(null);
+
+  // Estado de la solicitud: "enviada", "disponible", "bloqueada por requisitos", "no disponible actualmente"
+  const [requestState, setRequestState] = useState("disponible");
+
+  // Estados para el envío de la solicitud y manejo del diálogo
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [submissionError, setSubmissionError] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const programasResponse = await axios.get(
-          "/src/components/dashboardAlumno/dummyProgramas.json"
+    // Se obtiene el archivo JSON desde la carpeta public
+    fetch("/src/components/dashboardAdmin/ProgramasVSS_Ene2025_test.json")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error al obtener los programas");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Ordenar alfabéticamente por "Nombre del Programa de SS"
+        data.sort((a, b) =>
+          a["Nombre del Programa de SS"].localeCompare(
+            b["Nombre del Programa de SS"]
+          )
         );
-        const solicitudesResponse = await axios.get(
-          "http://localhost:3000/solicitudes"
-        );
-        setProgramas(programasResponse.data);
-        setSolicitudes(solicitudesResponse.data);
-
-        const solicitudExistente = solicitudesResponse.data.find(
-          (s) => s.id_alumno === alumno.id
-        );
-        setEstadoSolicitud(
-          solicitudExistente ? "Solicitud enviada" : "Solicitud disponible"
-        );
-      } catch (error) {
-        console.error("Error al cargar datos:", error);
-        setEstadoSolicitud("Solicitud no disponible");
-      }
-    };
-
-    fetchData();
+        setPrograms(data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setFetchError(err.message);
+        setIsLoading(false);
+        setRequestState("no disponible actualmente");
+      });
   }, []);
 
-  const handleSeleccionarPrograma = (programa) => {
-    setProgramaSeleccionado(programa);
-  };
-
-  const handleSolicitarPrograma = () => {
-    setDialogoAbierto(true);
-  };
-
-  const confirmarSolicitud = async () => {
-    setBotonDeshabilitado(true);
-    try {
-      const nuevaSolicitud = {
-        id: solicitudes.length + 1,
-        fecha: new Date(Date.now()),
-        estado: "Enviada",
-        nombre_programa: programaSeleccionado.nombre,
-        id_programa: programaSeleccionado.id,
-        id_alumno: alumno.id,
-      };
-      const res = await axios.post(
-        "http://localhost:3000/solicitudes",
-        nuevaSolicitud
-      );
-      console.log(res);
-      setEstadoSolicitud("Solicitud enviada");
-    } catch {
-      alert("Error al enviar la solicitud.");
-      setBotonDeshabilitado(false);
+  useEffect(() => {
+    if (!checkEligibility(student)) {
+      setRequestState("bloqueada por requisitos");
+    } else {
+      setRequestState("disponible");
     }
-    setDialogoAbierto(false);
+  }, []);
+
+  const handleProgramClick = (program) => {
+    setSelectedProgram(program);
+    setSubmissionError(null);
+  };
+
+  const handleRequestClick = () => {
+    setOpenDialog(true);
+  };
+
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+  };
+
+  // Simulación de envío de solicitud al backend
+  const handleConfirmRequest = () => {
+    setIsSubmitting(true);
+    setTimeout(() => {
+      const success = true;
+      if (success) {
+        setRequestState("enviada");
+        setIsSubmitting(false);
+        setOpenDialog(false);
+      } else {
+        setSubmissionError("Error al enviar la solicitud. Intente de nuevo.");
+        setIsSubmitting(false);
+        setOpenDialog(false);
+      }
+    }, 2000);
   };
 
   return (
-    <Box sx={{ padding: 2 }}>
-      <Typography variant="h5">Estado: {estadoSolicitud}</Typography>
-      <Box
-        sx={{
-          maxHeight: "350px", // Altura máxima de la lista
-          overflowY: "auto", // Habilita el scroll vertical
-          border: "1px solid #ddd",
-          borderRadius: "8px",
-          padding: "8px",
-          marginTop: 2,
-        }}
-      >
-        <List>
-          {programas.map((programa, index) => (
-            <ListItem
-              key={programa.id}
-              component="button"
-              onClick={() => handleSeleccionarPrograma(programa)}
-              sx={{
-                textAlign: "left",
-                textDecoration: "none",
-                cursor: "pointer",
-                border: "none",
-                background: "none",
-                padding: "8px",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <ListItemText
-                primary={`${index + 1}. ${programa.nombre}`}
-                secondary={`${programa.alumnos_inscritos} / ${programa.alumnos_maximos_requeridos} alumnos inscritos`}
-              />
-            </ListItem>
-          ))}
-        </List>
-      </Box>
+    <Box sx={{ p: 2 }}>
+      {/* Título con mayor separación */}
+      <Typography variant="h5" gutterBottom sx={{ mb: 4 }}>
+        Estado de la solicitud: {requestState}
+      </Typography>
 
-      {programaSeleccionado && (
-        <Card sx={{ marginTop: 2 }}>
-          <CardContent>
-            <Typography variant="h6">{programaSeleccionado.nombre}</Typography>
-            <Box
+      {isLoading ? (
+        <Typography>Cargando programas...</Typography>
+      ) : fetchError ? (
+        <Alert severity="error">{fetchError}</Alert>
+      ) : (
+        <Grid container spacing={2}>
+          {/* Lista de programas */}
+          <Grid item xs={12} md={4}>
+            <Typography variant="h6" gutterBottom>
+              Lista de Programas
+            </Typography>
+            <List
               sx={{
-                whiteSpace: "pre-line", // Preserve line breaks
+                height: "400px",
+                overflowY: "auto",
+                border: "1px solid #ccc",
+                borderRadius: 1,
               }}
             >
-              <Typography variant="body1">
-                <Typography
-                  component="span"
-                  sx={{ fontWeight: "bold", color: "primary.main" }}
-                >
-                  Dependencia:
-                </Typography>{" "}
-                {programaSeleccionado.dependencia}
+              {programs.map((program) => (
+                <ListItem key={program.id} disablePadding>
+                  <ListItemButton
+                    onClick={() => handleProgramClick(program)}
+                    selected={
+                      selectedProgram && selectedProgram.id === program.id
+                    }
+                    sx={{
+                      "&.Mui-selected": {
+                        backgroundColor: "secondary.light",
+                        "&:hover": {
+                          backgroundColor: "secondary.main",
+                        },
+                      },
+                    }}
+                  >
+                    <Typography variant="body1">
+                      {program["Nombre del Programa de SS"]}
+                    </Typography>
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
+          </Grid>
+
+          {/* Detalle del programa seleccionado */}
+          <Grid item xs={12} md={8} mt={5}>
+            {selectedProgram ? (
+              <Card variant="outlined">
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    {selectedProgram["Nombre del Programa de SS"]}
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Dependencia:</strong> {selectedProgram.Dependencia}
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Domicilio:</strong> {selectedProgram.Domicilio}
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Teléfono:</strong> {selectedProgram["Teléfono"]}
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Responsable:</strong>{" "}
+                    {
+                      selectedProgram[
+                        "Nombre del responsable del programa de SS"
+                      ]
+                    }
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Cargo del responsable:</strong>{" "}
+                    {
+                      selectedProgram[
+                        "Puesto del responsable del programa de SS"
+                      ]
+                    }
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Correo:</strong>{" "}
+                    {
+                      selectedProgram[
+                        "Correo electrónico del responsable del SS"
+                      ]
+                    }
+                  </Typography>
+                  <Typography variant="body2" gutterBottom>
+                    <strong>Objetivo:</strong>{" "}
+                    {selectedProgram["Objetivo del Programa de SS"]}
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Actividades:</strong>
+                  </Typography>
+                  <List>
+                    {selectedProgram[
+                      "Desglose de actividades a realizar en el SS"
+                    ].map((actividad, index) => (
+                      <ListItem key={index} sx={{ pl: 4 }}>
+                        <Typography variant="body2">- {actividad}</Typography>
+                      </ListItem>
+                    ))}
+                  </List>
+                  <Box sx={{ mt: 2 }}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleRequestClick}
+                      disabled={isSubmitting || requestState !== "disponible"}
+                    >
+                      {isSubmitting
+                        ? "Enviando solicitud"
+                        : "Solicitar Programa"}
+                    </Button>
+                    {submissionError && (
+                      <Alert severity="error" sx={{ mt: 2 }}>
+                        {submissionError}
+                      </Alert>
+                    )}
+                  </Box>
+                </CardContent>
+              </Card>
+            ) : (
+              <Typography>
+                Seleccione un programa para ver los detalles
               </Typography>
-              <Typography variant="body1">
-                <Typography
-                  component="span"
-                  sx={{ fontWeight: "bold", color: "primary.main" }}
-                >
-                  Alumnos minimos requeridos:
-                </Typography>{" "}
-                {programaSeleccionado.alumnos_minimos_requeridos}
-              </Typography>
-              <Typography variant="body1">
-                <Typography
-                  component="span"
-                  sx={{ fontWeight: "bold", color: "primary.main" }}
-                >
-                  Alumnos maximos requeridos:
-                </Typography>{" "}
-                {programaSeleccionado.alumnos_maximos_requeridos}
-              </Typography>
-              <Typography variant="body1">
-                <Typography
-                  component="span"
-                  sx={{ fontWeight: "bold", color: "primary.main" }}
-                >
-                  Alumnos inscritos:
-                </Typography>{" "}
-                {programaSeleccionado.alumnos_inscritos}
-              </Typography>
-              <Typography variant="body1">
-                <Typography
-                  component="span"
-                  sx={{ fontWeight: "bold", color: "primary.main" }}
-                >
-                  Carreras solicitadas:
-                </Typography>
-                {"\n"}
-                {programaSeleccionado.carreras_solicitadas.join("\n ")}
-              </Typography>
-              <Typography variant="body1">
-                <Typography
-                  component="span"
-                  sx={{ fontWeight: "bold", color: "primary.main" }}
-                >
-                  Domicilio de la dependencia:
-                </Typography>{" "}
-                {programaSeleccionado.domicilio_dependencia}
-              </Typography>
-              <Typography variant="body1">
-                <Typography
-                  component="span"
-                  sx={{ fontWeight: "bold", color: "primary.main" }}
-                >
-                  Telefono:
-                </Typography>{" "}
-                {programaSeleccionado.telefono}
-              </Typography>
-              <Typography variant="body1">
-                <Typography
-                  component="span"
-                  sx={{ fontWeight: "bold", color: "primary.main" }}
-                >
-                  Titular de la dependencia:
-                </Typography>{" "}
-                {programaSeleccionado.titular_dependencia}
-              </Typography>
-              <Typography variant="body1">
-                <Typography
-                  component="span"
-                  sx={{ fontWeight: "bold", color: "primary.main" }}
-                >
-                  Cargo del titular:
-                </Typography>{" "}
-                {programaSeleccionado.cargo_titular}
-              </Typography>
-              <Typography variant="body1">
-                <Typography
-                  component="span"
-                  sx={{ fontWeight: "bold", color: "primary.main" }}
-                >
-                  Departamento u oficina:
-                </Typography>{" "}
-                {programaSeleccionado.departamento_oficina}
-              </Typography>
-              <Typography variant="body1">
-                <Typography
-                  component="span"
-                  sx={{ fontWeight: "bold", color: "primary.main" }}
-                >
-                  Jefe del Departamento:
-                </Typography>{" "}
-                {programaSeleccionado.jefe_departamento}
-              </Typography>
-              <Typography variant="body1">
-                <Typography
-                  component="span"
-                  sx={{ fontWeight: "bold", color: "primary.main" }}
-                >
-                  Nombre del responsable:
-                </Typography>{" "}
-                {programaSeleccionado.responsable}
-              </Typography>
-              <Typography variant="body1">
-                <Typography
-                  component="span"
-                  sx={{ fontWeight: "bold", color: "primary.main" }}
-                >
-                  Puesto del responsable:
-                </Typography>{" "}
-                {programaSeleccionado.puesto_responsable}
-              </Typography>
-              <Typography variant="body1">
-                <Typography
-                  component="span"
-                  sx={{ fontWeight: "bold", color: "primary.main" }}
-                >
-                  Correo del responsable:
-                </Typography>{" "}
-                {programaSeleccionado.correo_responsable}
-              </Typography>
-              <Typography variant="body1">
-                <Typography
-                  component="span"
-                  sx={{ fontWeight: "bold", color: "primary.main" }}
-                >
-                  Objetivo general:
-                </Typography>{" "}
-                {programaSeleccionado.objetivo_general}
-              </Typography>
-              <Typography variant="body1">
-                <Typography
-                  component="span"
-                  sx={{ fontWeight: "bold", color: "primary.main" }}
-                >
-                  Objetivos especificos:
-                </Typography>
-                {"\n"}
-                {programaSeleccionado.objetivos_especificos.join("\n ")}
-              </Typography>
-              <Typography variant="body1">
-                <Typography
-                  component="span"
-                  sx={{ fontWeight: "bold", color: "primary.main" }}
-                >
-                  Desglose de actividades:
-                </Typography>
-                {"\n"}
-                {programaSeleccionado.desglose_actividades.join("\n ")}
-              </Typography>
-            </Box>
-          </CardContent>
-          <CardActions>
-            <Button
-              variant="contained"
-              color="primary"
-              disabled={
-                estadoSolicitud !== "Solicitud disponible" || botonDeshabilitado
-              }
-              onClick={handleSolicitarPrograma}
-            >
-              {botonDeshabilitado ? "Enviando solicitud" : "Solicitar Programa"}
-            </Button>
-          </CardActions>
-        </Card>
+            )}
+          </Grid>
+        </Grid>
       )}
-      <Dialog open={dialogoAbierto}>
-        <DialogTitle>Confirmar Solicitud</DialogTitle>
+
+      {/* Diálogo de confirmación */}
+      <Dialog open={openDialog} onClose={handleDialogClose}>
+        <DialogTitle>Confirmación de solicitud</DialogTitle>
         <DialogContent>
-          <Box variant="body1">
-            <Typography variant="h5">
-              ¿Seguro que desea aplicar para el programa{" "}
-            </Typography>
-            <Typography variant="h4" color="secondary.main">
-              {programaSeleccionado?.nombre}?
-            </Typography>
-          </Box>
+          <Typography>
+            ¿Seguro que desea aplicar para el programa{" "}
+            {selectedProgram
+              ? selectedProgram["Nombre del Programa de SS"]
+              : ""}
+          </Typography>
         </DialogContent>
         <DialogActions>
-          <Button
-            onClick={() => setDialogoAbierto(false)}
-            disabled={botonDeshabilitado}
-          >
+          <Button onClick={handleDialogClose} disabled={isSubmitting}>
             No
           </Button>
-          <Button onClick={confirmarSolicitud} disabled={botonDeshabilitado}>
-            Sí
+          <Button
+            onClick={handleConfirmRequest}
+            color="primary"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Enviando solicitud" : "Sí"}
           </Button>
         </DialogActions>
       </Dialog>
     </Box>
   );
-}
+};
+
+export default ProgramasDisp;

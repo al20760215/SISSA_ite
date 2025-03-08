@@ -222,21 +222,11 @@ export default function ResponsiveDrawer(props) {
       case "Inicio":
         return (
           <>
-            <Typography variant="h5" sx={{ mb: 2 }}>
-              Contenido de Inicio
-            </Typography>
             <Inicio usuario handleSectionChange={handleSectionChange} />
           </>
         );
       case "Lista de Programas":
-        return (
-          <Container display="flex">
-            <Typography variant="h5" sx={{ mb: 2 }}>
-              Contenido de Lista de Programas
-            </Typography>
-            <ProgramasDisp />
-          </Container>
-        );
+        return <ProgramasDisp />;
       case "Platica Servicio":
         return (
           <Container display="flex">

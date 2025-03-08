@@ -155,9 +155,6 @@ const PlaticaServicio = ({ alumno }) => {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        Bienvenido, {estudianteInicial.nombreCompleto}
-      </Typography>
       <Typography variant="h6" gutterBottom>
         Estado de la plática: {estadoPlatica}
       </Typography>

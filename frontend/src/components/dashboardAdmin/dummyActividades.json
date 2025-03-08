@@ -1,0 +1,7 @@
+[
+  { "id": 1, "contenido": "Administración" },
+  { "id": 2, "contenido": "Desarrollo de proyectos" },
+  { "id": 3, "contenido": "Desarrollo de servicios" },
+  { "id": 4, "contenido": "Mantenimiento" },
+  { "id": 5, "contenido": "Atención al cliente" }
+]

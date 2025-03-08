@@ -4,7 +4,6 @@ import {
   Typography,
   Paper,
   List,
-  ListItem,
   ListItemText,
   Divider,
   Dialog,
@@ -13,6 +12,7 @@ import {
   DialogActions,
   Button,
   Grid,
+  ListItemButton,
 } from "@mui/material";
 
 // Función auxiliar para calcular la fecha tentativa (6 meses después de la fecha de inicio)
@@ -86,7 +86,7 @@ const Documentos = () => {
     },
   ]);
 
-  // Historial de documentos revisados (se muestran hasta 10 elementos con scroll)
+  // Historial de documentos revisados (se muestran hasta 10 elementos)
   const [historialData, setHistorialData] = useState([]);
 
   // Estados para manejar la ventana modal de revisión
@@ -208,13 +208,12 @@ const Documentos = () => {
                 Generar Doc. Prueba
               </Button>
             </Box>
-            <List sx={{ maxHeight: 300, overflowY: "auto" }}>
+            <List sx={{ height: 325, overflowY: "auto" }}>
               {solicitudAnexoData
                 .slice()
                 .sort((a, b) => new Date(a.date) - new Date(b.date))
                 .map((doc) => (
-                  <ListItem
-                    button
+                  <ListItemButton
                     key={doc.id}
                     onClick={() => handleListItemClick(doc, "solicitud")}
                   >
@@ -222,7 +221,7 @@ const Documentos = () => {
                       primary={`${doc.studentName} - ${doc.folio}`}
                       secondary={`${doc.date} | ${doc.programName}`}
                     />
-                  </ListItem>
+                  </ListItemButton>
                 ))}
             </List>
           </Paper>
@@ -244,13 +243,12 @@ const Documentos = () => {
                 Generar Doc. Prueba
               </Button>
             </Box>
-            <List sx={{ maxHeight: 300, overflowY: "auto" }}>
+            <List sx={{ height: 325, overflowY: "auto" }}>
               {cartaCompromisoData
                 .slice()
                 .sort((a, b) => new Date(a.date) - new Date(b.date))
                 .map((doc) => (
-                  <ListItem
-                    button
+                  <ListItemButton
                     key={doc.id}
                     onClick={() => handleListItemClick(doc, "carta")}
                   >
@@ -258,7 +256,7 @@ const Documentos = () => {
                       primary={`${doc.studentName} - ${doc.folio}`}
                       secondary={`${doc.date} | ${doc.programName}`}
                     />
-                  </ListItem>
+                  </ListItemButton>
                 ))}
             </List>
           </Paper>
@@ -280,13 +278,12 @@ const Documentos = () => {
                 Generar Doc. Prueba
               </Button>
             </Box>
-            <List sx={{ maxHeight: 300, overflowY: "auto" }}>
+            <List sx={{ height: 325, overflowY: "auto" }}>
               {reporteBimestralData
                 .slice()
                 .sort((a, b) => new Date(a.date) - new Date(b.date))
                 .map((doc) => (
-                  <ListItem
-                    button
+                  <ListItemButton
                     key={doc.id}
                     onClick={() => handleListItemClick(doc, "reporte")}
                   >
@@ -294,7 +291,7 @@ const Documentos = () => {
                       primary={`${doc.studentName} - ${doc.folio}`}
                       secondary={`${doc.date} | ${doc.programName}`}
                     />
-                  </ListItem>
+                  </ListItemButton>
                 ))}
             </List>
           </Paper>
@@ -308,14 +305,26 @@ const Documentos = () => {
           Historial de Revisión
         </Typography>
         <Paper elevation={3} sx={{ p: 2, backgroundColor: "#f3e5f5" }}>
-          <List sx={{ maxHeight: 400, overflowY: "auto" }}>
+          <List sx={{ height: 300, overflowY: "auto" }}>
             {historialData.map((item, index) => (
-              <ListItem key={index}>
+              <ListItemButton
+                key={index}
+                sx={{
+                  backgroundColor:
+                    item.status === "Aprobado"
+                      ? "#c8e6c9"
+                      : item.status === "Rechazado"
+                      ? "#ffcdd2"
+                      : "inherit",
+                  mb: 1,
+                  borderRadius: 1,
+                }}
+              >
                 <ListItemText
                   primary={`[${item.documentType}] ${item.studentName} - ${item.status}`}
                   secondary={`Recibido: ${item.receivedDate} | Revisado: ${item.reviewDate} | Folio: ${item.folio}`}
                 />
-              </ListItem>
+              </ListItemButton>
             ))}
           </List>
         </Paper>
