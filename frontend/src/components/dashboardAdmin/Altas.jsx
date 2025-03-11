@@ -11,19 +11,13 @@ import {
   Grid,
   Snackbar,
   Alert,
-  Select,
-  MenuItem,
-  InputLabel,
-  FormControl,
-  OutlinedInput,
-  ListItemText,
-  Chip,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  Autocomplete,
   Paper,
 } from "@mui/material";
 
@@ -492,51 +486,38 @@ const Altas = () => {
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <FormControl
-                      fullWidth
-                      error={!!responsableErrors.programas}
-                    >
-                      <InputLabel id="programas-label">
-                        Programa(s) a cargo
-                      </InputLabel>
-                      <Select
-                        labelId="programas-label"
-                        multiple
-                        value={responsableData.programas}
-                        onChange={handleProgramasChange}
-                        input={<OutlinedInput label="Programa(s) a cargo" />}
-                        renderValue={(selected) => (
-                          <Box
-                            sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}
-                          >
-                            {selected.map((value) => (
-                              <Chip key={value} label={value} />
-                            ))}
-                          </Box>
-                        )}
-                      >
-                        {programsData.map((program) => (
-                          <MenuItem
-                            key={program.id}
-                            value={program["Nombre del Programa de SS"]}
-                          >
-                            <ListItemText
-                              primary={program["Nombre del Programa de SS"]}
-                              secondary={
-                                program[
-                                  "Depto. y/u Oficina donde se va a realizar el SS"
-                                ]
-                              }
-                            />
-                          </MenuItem>
-                        ))}
-                      </Select>
-                      {responsableErrors.programas && (
-                        <Typography variant="caption" color="error">
-                          {responsableErrors.programas}
-                        </Typography>
+                    <Autocomplete
+                      multiple
+                      options={programsData}
+                      value={responsableData.programas}
+                      onChange={(event, newValue) =>
+                        setResponsableData((prev) => ({
+                          ...prev,
+                          programas: newValue,
+                        }))
+                      }
+                      getOptionLabel={(option) =>
+                        `${option["Nombre del Programa de SS"]} - ${option["Depto. y/u Oficina donde se va a realizar el SS"]}`
+                      }
+                      ListboxProps={{ style: { maxHeight: "200px" } }}
+                      renderOption={(props, option, { selected }) => (
+                        <li
+                          {...props}
+                          style={{ fontWeight: selected ? 600 : 400 }}
+                        >
+                          {`${option["Nombre del Programa de SS"]} - ${option["Depto. y/u Oficina donde se va a realizar el SS"]}`}
+                        </li>
                       )}
-                    </FormControl>
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Programa(s) a cargo"
+                          placeholder="Selecciona programas"
+                          error={!!responsableErrors.programas}
+                          helperText={responsableErrors.programas}
+                        />
+                      )}
+                    />
                   </Grid>
                   <Grid item xs={12}>
                     <Button type="submit" variant="contained" color="primary">
